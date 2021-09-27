@@ -8,6 +8,8 @@
 #define KERNEL_END_PADDR ((uintptr_t)&kernel_phys_end)
 #define KERNEL_SIZE (KERNEL_END_PADDR - KERNEL_START_PADDR)
 
+typedef uint32_t virtual_addr;
+
 #define KERNELSPACE_VADDR 0xC0000000
 
 #define KERNEL_START_VADDR ((uint32_t)&kernel_virt_start)
@@ -29,10 +31,10 @@
 #define PAGE_ENTRIES 1024
 
 // Constants for Kernel heap manager
-// #define KHEAP_START_VADDR 0xC0500000 // if kernel size > 4MB, change
+#define KHEAP_START_VADDR 0xC0500000 // if kernel size > 4MB, change
 
 // Constants for User heap manager
-// #define UHEAP_START_VADDR 0x20000000 // virtual address where user heap in each process page dir begins
+#define UHEAP_START_VADDR 0x20000000 // virtual address where user heap in each process page dir begins
 
 // Functions to
 #define ALIGN_BLOCK(addr) (addr) - ((addr) % PHYS_BLOCK_SIZE);

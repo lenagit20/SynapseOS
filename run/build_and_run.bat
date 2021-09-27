@@ -52,6 +52,7 @@ echo Build modules
 %CC% %CCFLAGS% -c %SRC%/modules/time.c -o ./bin/time.o
 %CC% %CCFLAGS% -c %SRC%/modules/phys_mem.c -o ./bin/phys_mem.o
 %CC% %CCFLAGS% -c %SRC%/modules/virt_mem.c -o ./bin/virt_mem.o
+%CC% %CCFLAGS% -c %SRC%/modules/kheap.c -o ./bin/kheap.o
 %CC% %CCFLAGS% -c %SRC%/modules/NeraMath.c -o ./bin/NeraMath.o
 %CC% %CCFLAGS% -c %SRC%/modules/gdt.c -o bin/gdt.o
 %CC% %CCFLAGS% -c %SRC%/modules/shell.c -o bin/shell.o
