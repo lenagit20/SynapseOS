@@ -2,6 +2,7 @@
 #define _MEMMAP_H_
 
 #include <stdint.h>
+#include "stdlib.h"
 
 // Constants to the boundaries of memory
 #define KERNEL_START_PADDR ((uintptr_t)&kernel_phys_start)

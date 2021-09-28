@@ -5,6 +5,9 @@
 
 #define S_NULL ((void*)0)
 
+#define TRUE 0x01
+#define FALSE 0x00
+
 #include <stdint-gcc.h>
 
 typedef unsigned char uint8;

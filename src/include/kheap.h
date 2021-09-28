@@ -5,8 +5,10 @@
 
 #include "memmap.h"
 #include "virt_mem.h"
+#include "stdlib.h"
 #include <stdbool.h>
 #include <stdint.h>
+#include <stddef.h>
 //-------------------------------------------------------------------
 
 typedef struct __attribute__((packed)) kheap_item //9 bytes yes?

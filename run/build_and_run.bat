@@ -27,7 +27,7 @@ SET SRC=./src
 SET CCFLAGS=-O3 -std=gnu99 -ffreestanding -Wall -Wextra 
 SET LDFLAGS=-O3 -ffreestanding -nostdlib -lgcc
 set OBJECTS_DRIVERS=bin/qemu_log.o bin/cpu_detect.o
-set OBJECTS=bin/kasm.o bin/irq_wrappers.o bin/kc.o bin/gdt.o bin/pic.o bin/idt.o %OBJECTS_DRIVERS% bin/time.o bin/shell.o bin/NeraMath.o bin/kbd.o bin/tty.o bin/ports.o bin/virt_mem.o bin/phys_mem.o bin/stdlib.o
+set OBJECTS=bin/kasm.o bin/irq_wrappers.o bin/kc.o bin/gdt.o bin/pic.o bin/idt.o %OBJECTS_DRIVERS% bin/time.o bin/shell.o bin/NeraMath.o bin/kbd.o bin/tty.o bin/ports.o bin/kheap.o bin/virt_mem.o bin/phys_mem.o bin/stdlib.o
 
 
 :: Checking for the presence of a folder and, if not, creating one
