@@ -5,6 +5,7 @@
 
 #include "memmap.h"
 #include "virt_mem.h"
+#include "tty.h"
 #include "stdlib.h"
 #include <stdbool.h>
 #include <stdint.h>
