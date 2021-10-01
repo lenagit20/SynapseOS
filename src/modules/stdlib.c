@@ -1,29 +1,6 @@
 #include "../include/stdlib.h"
 #include "../include/qemu_log.h"
 #include "../include/tty.h"
-// enum exception_codes
-// {
-//   EXCEPT_DIV = 0,
-//   EXCEPT_RESVD,
-//   EXCEPT_NMI,
-//   EXCEPT_BP,
-//   EXCEPT_OVERFLOW,
-//   EXCEPT_BOUND,
-//   EXCEPT_INVOP,
-//   EXCEPT_DEVNA,
-//   EXCEPT_DOUBLE,
-//   EXCEPT_COSEG,
-//   EXCEPT_INVTSS,
-//   EXCEPT_SEGNP,
-//   EXCEPT_SSFAULT,
-//   EXCEPT_GFP,
-//   EXCEPT_PAGEFAULT,
-//   EXCEPT_RESVD2,
-//   EXCEPT_X87FPU,
-//   EXCEPT_ALIGN,
-//   EXCEPT_MACHINECK,
-//   EXCEPT_SIMD
-// };
 
 // char * exception_strings[] = { 
 //     "Divide Error","Reserved","NMI Interrupt","Breakpoint",
@@ -47,22 +24,8 @@ void panic(const char *text) {
     asm volatile("hlt");
 }
 
-// void handle_exception();
 
-// void memset(void *mem, char value, size_t count) {
-//     asm("movl %0, %%eax \n movl %1, %%edi \n movl %2, %%ecx \n rep stosl"
-//         ::"a"((uint32)value | ((uint32)value << 8) | ((uint32)value << 16) | ((uint32)value << 24)),"b"(mem),"c"(count >> 2));
-//     asm("movb %b0, %%al \n movl %1, %%ecx \n rep stosb"::"a"(value),"b"(count & 3));
-// }
-
-void* memset(void* ptr, uint8_t val, size_t n)
-{
-	/*size_t i;
-	for(i = 0; i < n; ++i)
-	{
-		((uint8_t*)(ptr))[i] = val;
-	}
-	return ptr;*/
+void* memset(void* ptr, uint8_t val, size_t n) {
 	uint32_t num_dwords = n/4;
   	uint32_t num_bytes = n%4;
   	uint32_t *dst32 = (uint32_t*)ptr;
@@ -133,15 +96,14 @@ void strncpy(char *dest, char *src, size_t max_count) {
 }
 
 
-int strcmp(const char *str1, const char *str2)
-{
-    int s1;
-    int s2;
+int strcmp(const char *str1, const char *str2) {
+    int s1, s2;
     do {
         s1 = *str1++;
         s2 = *str2++;
-        if (s1 == 0)
+        if (s1 == 0) {
             break;
+        }
     } while (s1 == s2);
     return (s1 < s2) ? -1 : (s1 > s2);
 }
