@@ -5,10 +5,9 @@
 
 #define S_NULL ((void*)0)
 
-#define TRUE 0x01
-#define FALSE 0x00
 
 #include <stdint-gcc.h>
+#include <stdbool.h>
 
 typedef unsigned char uint8;
 typedef signed char int8;

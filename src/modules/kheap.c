@@ -50,7 +50,7 @@ void kheap_free(void *address) {
 		//tty_printf("tmp_item = %x\n", tmp_item);
 		if (tmp_item == item) {
 			// free it
-			tmp_item->used = FALSE;
+			tmp_item->used = false;
 			kheap_memory_used -= tmp_item->size;
 			kheap_allocs_num--;
 			// coalesce any adjacent free items
@@ -95,7 +95,7 @@ void *kheap_malloc(uint32_t size) {
 	if (new_item != 0) {
 		tmp_item = (kheap_item*)((uint32_t)new_item + total_size);
 		tmp_item->size = new_item->size - total_size;
-		tmp_item->used = FALSE;
+		tmp_item->used = false;
 		tmp_item->next = new_item->next;
 	} else {
 		// didnt find a fit so we must increase the heap to fit
@@ -108,7 +108,7 @@ void *kheap_malloc(uint32_t size) {
 		// we can calculate the size because morecore() allocates space that is page aligned
 		tmp_item = (kheap_item*)((uint32_t)new_item + total_size);
 		tmp_item->size = PAGE_SIZE - (total_size%PAGE_SIZE ? total_size%PAGE_SIZE : total_size) - sizeof(kheap_item);
-		tmp_item->used = FALSE;
+		tmp_item->used = false;
 		tmp_item->next = 0;
 
 		//tty_printf("last_item = %x", last_item);why commenting this causes exception??? ANSWER IS BECAUSE OF FUCKING OPTIMIZATION -O1. i disabled it and it works now witout this line
@@ -117,7 +117,7 @@ void *kheap_malloc(uint32_t size) {
 
 	// create the new item
 	new_item->size = size;
-	new_item->used = TRUE;
+	new_item->used = true;
 	new_item->next = tmp_item;
 
 	kheap_allocs_num++;

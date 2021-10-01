@@ -86,8 +86,7 @@ void vmm_map_page(uintptr_t  paddr, uintptr_t vaddr) {
 	flush_tlb_entry(vaddr);
 }
 
-uintptr_t vmm_temp_map_page(uintptr_t paddr)
-{
+uintptr_t vmm_temp_map_page(uintptr_t paddr) {
 	page_table_entry *pte = GET_PTE(TEMP_PAGE_ADDR);
 	qemu_printf("vmm_temp_map_page: pte = %x\n", pte);
 	page_table_entry_set_frame(pte, PAGE_ALIGN_DOWN(paddr));//old:DOWN
