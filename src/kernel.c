@@ -7,6 +7,7 @@
 #include "include/cpu_detect.h"
 #include "include/phys_mem.h"
 #include "include/virt_mem.h"
+#include "include/kheap.h"
 #include "include/shell.h"
 #include "include/multiboot.h"
 #include "include/time.h"
@@ -27,11 +28,6 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
     if (!(mboot_info->flags >> 6 & 0x1)) {
         panic("invalid memory map given by GRUB bootloader");
     }
-
-	// qemu_printf("magic x: %x\n", magic);
-	// qemu_printf("magic d: %d\n", magic);
-	// qemu_printf("MULTIBOOT_BOOTLOADER_MAGIC x: %x\n",MULTIBOOT_BOOTLOADER_MAGIC);
-	// qemu_printf("MULTIBOOT_BOOTLOADER_MAGIC d: %d\n",MULTIBOOT_BOOTLOADER_MAGIC);
 
     gdt_init(); // intialize Global Descriptor Table
 	qemu_printf("Global Descriptor Table inited\n");
@@ -58,6 +54,13 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	qemu_printf("Virtual memory manager initialized\n");
 
 	vmm_test();
+
+	kheap_init();
+	kheap_print_stat();
+	qemu_printf("Kernel heap initialized\n");
+
+	//kheap_test();
+	qemu_printf("Kernel heap test finish\n");
 	
 	tty_printf("\nEnter 'help' to get info about commands\n\n");
 	tty_setcolor(VGA_COLOR_LIGHT_GREEN);

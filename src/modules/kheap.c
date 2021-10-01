@@ -54,10 +54,8 @@ void kheap_free(void *address) {
 			kheap_memory_used -= tmp_item->size;
 			kheap_allocs_num--;
 			// coalesce any adjacent free items
-			for (tmp_item = kheap_begin; tmp_item != 0; tmp_item = tmp_item->next)
-			{
-				while (!tmp_item->used && tmp_item->next != 0 && !tmp_item->next->used)
-				{
+			for (tmp_item = kheap_begin; tmp_item != 0; tmp_item = tmp_item->next) {
+				while (!tmp_item->used && tmp_item->next != 0 && !tmp_item->next->used) {
 					tmp_item->size += sizeof(kheap_item) + tmp_item->next->size;
 					tmp_item->next = tmp_item->next->next;
 				}
