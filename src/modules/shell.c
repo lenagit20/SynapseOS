@@ -18,7 +18,7 @@
 // Color theme default = 0
 int color_theme = 0;
 // Debug default 0
-int DEBUG = 0; // Note: Debug works only on Qemu emulatorx
+int Debug = 0; // Note: Debug works only on Qemu emulatorx
 int math = 0; // NeraMath check
 
 
@@ -42,7 +42,7 @@ void shell_exec(char input_command[]) {
 		tty_printf("SynapseOS is a free and open source 64x operating system written in FASM and C. Help page 1/1.\nCommands:");
 		tty_printf("\n   help - info about commands            sysinfo - system information");
 		tty_printf("\n   time - info about current time        test - test system");
-		tty_printf("\n   exit - Shutdown SynapseOS             cls or clear - cleaning screen");
+		tty_printf("\n   Exit - Shutdown SynapseOS             cls or clear - cleaning screen");
 		tty_printf("\n   math - enable NeraMath");
 		
 	} else if( strcmp(input_command, "sysinfo") == 0 ) {
@@ -93,7 +93,7 @@ void shell_exec(char input_command[]) {
 		getnowtime();
 		tty_printf("\n");
 
-	} else if( strcmp(input_command, "exit") == 0 ) {
+	} else if( strcmp(input_command, "Exit") == 0 ) {
 		// Shutdown OS
 		qemu_printf("\n SHUTDOWN! \n");
 		tty_printf("\n\nSHUTDOWNING...");
@@ -102,7 +102,7 @@ void shell_exec(char input_command[]) {
 			io_wait();
 			i++;
 		}
-		EXIT = 1;
+		Exit = 1;
 
 	} else if( strcmp(input_command, "math") == 0 ) {
 		// NeraMath
@@ -116,12 +116,12 @@ void shell_exec(char input_command[]) {
 			qemu_printf("\nNERA MATH OFF\n");
 		}
 
-	} else if( strcmp(input_command, "debug") == 0 ) {
+	} else if( strcmp(input_command, "Debug") == 0 ) {
 		// Debug mode
-		if ( DEBUG == 0 ) {
-			DEBUG = 1;
+		if ( Debug == 0 ) {
+			Debug = 1;
 		} else {
-			DEBUG = 0;
+			Debug = 0;
 		}
 
 	} else if( strcmp(input_command, "cls") == 0 || strcmp(input_command, "clear") == 0 ) {
@@ -157,8 +157,8 @@ void shell_exec(char input_command[]) {
 //Check keyboard keycodes
 void check_keyboard() {
 
-	// If debug enabled we just save all input keycodes to log
-	if ( DEBUG == 1 ) {
+	// If Debug enabled we just save all input keycodes to log
+	if ( Debug == 1 ) {
 		qemu_printf("\n%d", keycode);
 	}
 
@@ -171,7 +171,7 @@ void check_keyboard() {
 
 	// Keycode 14 is backspase
 	if(keycode == 14) {
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("Backspase!\n");
 		}
 
@@ -191,7 +191,7 @@ void check_keyboard() {
 
 	if ( keycode == 42 || keycode == 54 ) {
 		SHIFT = 1;
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("\nSHIFT = %d\n", SHIFT);
 		}
 		return;
@@ -200,7 +200,7 @@ void check_keyboard() {
 	if ( keycode   == -86 ) {
 		SHIFT = 0;
 
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("\nSHIFT = %d\n", SHIFT);
 		}
 		return;
@@ -215,7 +215,7 @@ void check_keyboard() {
 			CAPS = 0;
 		}
 
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("CAPS = %d", CAPS);
 		}
 	}
@@ -237,7 +237,7 @@ void check_keyboard() {
 			SHIFT = 0;
 		}
 
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("\nSHIFT = %d\n", SHIFT);
 		}
 	}
@@ -255,21 +255,21 @@ void check_keyboard() {
 		return;
 	}
 
-	if ( DEBUG == 1 ) {
+	if ( Debug == 1 ) {
 		qemu_printf("SHIFT = %d, CAPS = %d\n", SHIFT, CAPS);
 	}
 
 	if ( SHIFT == 0 ) {
 		tty_putchar(keyboard_map[(unsigned char) keycode]);
 	} else {
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("SHIFTED\n");
 		}
 		tty_putchar(keyboard_map_shifted[(unsigned char) keycode]);
 	}
 
 	if (string_mem_counter!= STRING_MEM_MAX) {
-		if ( DEBUG == 1 ) {
+		if ( Debug == 1 ) {
 			qemu_printf("\n%d \n", keycode);;
 		}
 

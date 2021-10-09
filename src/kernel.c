@@ -13,7 +13,7 @@
 #include "include/time.h"
 #include "include/stdlib.h"
 
-int EXIT = 0;
+int Exit = 0;
 
 void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	int eip;
@@ -69,7 +69,7 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 
 	//long long int lifetime = 0;
 	// While kernel working we get input from keyboard
-	while(EXIT!=1){
+	while(Exit != 1){
 		check_keyboard();
 		io_wait();
 		//lifetime++;
