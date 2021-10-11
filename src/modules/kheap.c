@@ -46,7 +46,10 @@ void kheap_free(void *address) {
 	// set the item to remove
 	item = (kheap_item*)((uint32_t)address - (uint32_t)sizeof(kheap_item));
 	// find it
-	for (tmp_item = kheap_begin; tmp_item != 0; tmp_item = tmp_item->next) {
+	for (
+		tmp_item->size = kheap_begin;
+
+		tmp_item->size != 0; tmp_item = tmp_item->next) {
 		//tty_printf("tmp_item = %x\n", tmp_item);
 		if (tmp_item == item) {
 			// free it
@@ -54,7 +57,7 @@ void kheap_free(void *address) {
 			kheap_memory_used -= tmp_item->size;
 			kheap_allocs_num--;
 			// coalesce any adjacent free items
-			for (tmp_item = kheap_begin; tmp_item != 0; tmp_item = tmp_item->next) {
+			for (tmp_item->size = kheap_begin; tmp_item != 0; tmp_item = tmp_item->next) {
 				while (!tmp_item->used && tmp_item->next != 0 && !tmp_item->next->used) {
 					tmp_item->size += sizeof(kheap_item) + tmp_item->next->size;
 					tmp_item->next = tmp_item->next->next;
@@ -82,7 +85,7 @@ void *kheap_malloc(uint32_t size) {
 	if (kheap_end != 0) {
 		// search for first fit
 
-		for (new_item = kheap_begin; new_item != 0; new_item = new_item->next) {
+		for (new_item->size = kheap_begin; new_item != 0; new_item = new_item->next) {
 			if (new_item->next == 0) last_item = new_item;
 
 			if (!new_item->used && (total_size <= new_item->size))
@@ -110,7 +113,7 @@ void *kheap_malloc(uint32_t size) {
 		tmp_item->next = 0;
 
 		//tty_printf("last_item = %x", last_item);why commenting this causes exception??? ANSWER IS BECAUSE OF FUCKING OPTIMIZATION -O1. i disabled it and it works now witout this line
-		last_item->next = new_item;
+		last_item->next = new_item->next;
 	}
 
 	// create the new item
