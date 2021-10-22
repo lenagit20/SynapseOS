@@ -2,9 +2,9 @@
 
 #include "../include/kheap.h"
 bool kheap_is_init; // was kheap manager initialised or not.         TODO: is it unused?
-//virtual_addr kheap_last_alloc_addr; // address of last allocation
-virtual_addr kheap_begin; // address where kheap begins
-virtual_addr kheap_end; // address where kheap ends
+//uint32_t kheap_last_alloc_addr; // address of last allocation
+uint32_t kheap_begin; // address where kheap begins
+uint32_t kheap_end; // address where kheap ends
 uint32_t kheap_memory_used; // how many memory was used
 int kheap_allocs_num; // how many allocations now
 
@@ -47,7 +47,7 @@ void kheap_free(void *address) {
 	item = (kheap_item*)((uint32_t)address - (uint32_t)sizeof(kheap_item));
 	// find it
 	for (
-		tmp_item->size = kheap_begin;
+		tmp_item->size = (uint32_t)kheap_begin;
 
 		tmp_item->size != 0; tmp_item = tmp_item->next) {
 		//tty_printf("tmp_item = %x\n", tmp_item);
@@ -72,9 +72,12 @@ void kheap_free(void *address) {
 
 // allocates an arbiturary size of memory (via first fit) from the kernel heap
 void *kheap_malloc(uint32_t size) {
+	qemu_printf("\nkheap malloc func");
+
 	kheap_item *new_item = 0, *tmp_item;
 	uint32_t total_size;
 	// sanity check
+	qemu_printf("\nif (size == 0) return 0;");
 	if (size == 0) return 0;
 
 	// round up by 8 bytes and add header size
@@ -82,16 +85,23 @@ void *kheap_malloc(uint32_t size) {
 
 	kheap_item *last_item;
 	// if the heap exists
+	
+	qemu_printf("\nif (kheap_end != 0) {");
 	if (kheap_end != 0) {
 		// search for first fit
-
+		qemu_printf("\nkheap cycle 1");
+		
 		for (new_item->size = kheap_begin; new_item != 0; new_item = new_item->next) {
+			qemu_printf("\nif (new_item->next == 0) last_item = new_item;");
+			qemu_printf("\n");
 			if (new_item->next == 0) last_item = new_item;
 
 			if (!new_item->used && (total_size <= new_item->size))
 				break;
 		}
 	}
+	qemu_printf("\nif item");
+	
 	// if we found one
 	if (new_item != 0) {
 		tmp_item = (kheap_item*)((uint32_t)new_item + total_size);
@@ -99,31 +109,43 @@ void *kheap_malloc(uint32_t size) {
 		tmp_item->used = false;
 		tmp_item->next = new_item->next;
 	} else {
+		qemu_printf("\nelse");
+
 		// didnt find a fit so we must increase the heap to fit
 		new_item = kheap_morecore(total_size);
+		qemu_printf("\nkheap morecore");
+
 		if (new_item == 0) {
+			qemu_printf("\nitem 0");
+
 			// return 0 as we are out of physical memory!
 			return 0;
 		}
 		// create an empty item for the extra space kheap_morecore() gave us
 		// we can calculate the size because morecore() allocates space that is page aligned
+		qemu_printf("\ntmp item = new item");
 		tmp_item = (kheap_item*)((uint32_t)new_item + total_size);
 		tmp_item->size = PAGE_SIZE - (total_size%PAGE_SIZE ? total_size%PAGE_SIZE : total_size) - sizeof(kheap_item);
 		tmp_item->used = false;
 		tmp_item->next = 0;
+		qemu_printf("\n lest item new = new item next");
 
 		//tty_printf("last_item = %x", last_item);why commenting this causes exception??? ANSWER IS BECAUSE OF FUCKING OPTIMIZATION -O1. i disabled it and it works now witout this line
 		last_item->next = new_item->next;
 	}
+	qemu_printf("\nnew_item->size = size;");
 
 	// create the new item
 	new_item->size = size;
 	new_item->used = true;
 	new_item->next = tmp_item;
+	qemu_printf("\nkheap alloc++");
 
 	kheap_allocs_num++;
 	kheap_memory_used += total_size;
 	// return the newly allocated memory location
+	qemu_printf("\nreturn ");
+
 	return (void *)((uint32_t)new_item + (uint32_t)sizeof(kheap_item));//old (int)... + ...
 }
 
@@ -133,10 +155,14 @@ void kheap_print_stat() {
 }
 
 void kheap_test() {
-
+	qemu_printf("\ntest kheap");
 	uint32_t sz = 1024*768*4;
+
+	qemu_printf("\nkheap malloc");
+
 	uint8_t *mas = kheap_malloc(sz);
     //mas[0x003FFFFF] = 17;
+	qemu_printf("\nkheap memset");
     memset(mas, 5, sz);
     tty_printf("mas[sz-1] = %d\n", mas[sz - 1]);
     tty_printf("mas_addr = %x\n", mas);
@@ -144,6 +170,7 @@ void kheap_test() {
     kheap_print_stat();
 
 
+	qemu_printf("\nkheap malloc");
 	int cnt = 12;
     int *arr = (int*)kheap_malloc(cnt*sizeof(int));
     int i;
