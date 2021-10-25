@@ -63,7 +63,6 @@ void vmm_create_kernel_page_dir() {
 		if (i == PAGE_ENTRIES - 1) {
 			page_dir_entry_add_attrib(pde, I86_PTE_PRESENT);
 			page_dir_entry_set_frame(pde, (uintptr_t )kernel_page_dir);
-			// tty_printf("pd[1023] = %x\n", pd->entries[1023]);
 		}
 	}
 }
@@ -92,9 +91,7 @@ uintptr_t vmm_temp_map_page(uintptr_t paddr) {
 	page_table_entry_set_frame(pte, PAGE_ALIGN_DOWN(paddr));//old:DOWN
 	page_table_entry_add_attrib(pte, I86_PTE_PRESENT);
 	page_table_entry_add_attrib(pte, I86_PTE_WRITABLE);
-	// flush_tlb_entry(TEMP_PAGE_ADDR);
 	asm volatile("invlpg %0" :: "m" (*(uint32_t *)TEMP_PAGE_ADDR) : "memory" );
-	// flush_tlb_all();
 	return TEMP_PAGE_ADDR;
 }
 
@@ -119,9 +116,7 @@ void vmm_init() {
 	{
 		page_table_entry page = 0;
 		page_table_entry_add_attrib(&page, I86_PTE_PRESENT);
-		// page_table_entry_add_attrib(&page, I86_PTE_WRITABLE); // 
 		page_table_entry_set_frame(&page, frame);
-		// qemu_printf("page1 = %x, frame1 = %x\n", (uint32_t)page, frame);
 		table1->entries[PAGE_TABLE_INDEX(virt)] = page;
 	}
 	qemu_printf("vmm: first mb mapped to 3gb\n");
@@ -138,7 +133,6 @@ void vmm_init() {
 		page_table_entry_add_attrib(&page, I86_PTE_PRESENT);
 		// page_table_entry_add_attrib(&page, I86_PTE_WRITABLE); // 
 		page_table_entry_set_frame(&page, frame);
-		// qemu_printf("page2 = %x\n", (uint32_t)page);
 
 		table1->entries[PAGE_TABLE_INDEX(virt)] = page;
 	}
@@ -152,7 +146,6 @@ void vmm_init() {
 	update_phys_memory_bitmap_addr(KERNEL_END_VADDR);
 
 	qemu_printf("vmm: trying enable paging...\n");
-	// qemu_printf("vmm: enable_paging function address = %x\n", enable_paging);
 	enable_paging((uintptr_t )kernel_page_dir);
 	qemu_printf("vmm: kernel page dir loaded\n");
 	qemu_printf("vmm: vmm initialized!\n");

@@ -158,7 +158,6 @@ void pmm_free_blocks(uintptr_t addr, uint32_t count) {
 // Internal functions to allocate ranges of memory:
 
 void pmm_alloc_chunk(uintptr_t base_addr, size_t length) {
-    // qemu_printf("pmm_alloc_chunk\n");
     int cur_block_addr = (int)base_addr / PHYS_BLOCK_SIZE;
     int num_blocks = length / PHYS_BLOCK_SIZE;
     while (num_blocks-- >= 0)
@@ -186,7 +185,6 @@ void pmm_free_available_memory(struct multiboot_info* mb) {
     multiboot_memory_map_t* mm = (multiboot_memory_map_t*)mb->mmap_addr;
     #define DANGER_ZONE_BOUND 0x102000 // dont mark as free first MB, and 0x101000 - 0x102000 (there lives _boot_page_dir !)
     while ((unsigned int)mm < mb->mmap_addr + mb->mmap_length) {
-        //qemu_printf("freed\n");
         if (mm->type == MULTIBOOT_MEMORY_AVAILABLE) {
             if (mm->addr_low <= DANGER_ZONE_BOUND) { 
                 if (mm->addr_low + mm->len_low <= DANGER_ZONE_BOUND) {

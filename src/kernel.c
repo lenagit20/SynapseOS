@@ -30,10 +30,10 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
     }
 
     gdt_init(); // intialize Global Descriptor Table
-	qemu_printf("Global Descriptor Table inited\n");
+	qemu_printf("Global Descriptor Table initialized\n");
 
 	idt_init(); // initialize Interrupt Descriptor Table
-	qemu_printf("Interrupt Descriptor Table inited\n");
+	qemu_printf("Interrupt Descriptor Table initialized\n");
 	
 	// initialize the PS/2 keyboard
 	kb_init(); 
@@ -56,23 +56,17 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	vmm_test();
 
 	kheap_init();
-	//kheap_test();
 	qemu_printf("Kernel heap initialized\n");
-
-	//kheap_test();
-	qemu_printf("Kernel heap test finish\n");
 	
 	tty_printf("\nEnter 'help' to get info about commands\n\n");
 	tty_setcolor(VGA_COLOR_LIGHT_GREEN);
 	tty_printf(">");
 	tty_setcolor(VGA_COLOR_LIGHT_CYAN);
 
-	//long long int lifetime = 0;
-	// While kernel working we get input from keyboard
+	// While the kernel is working we get input from keyboard
 	while(Exit != 1){
 		check_keyboard();
 		io_wait();
-		//lifetime++;
 	}
 
 	// Shutdown codes	

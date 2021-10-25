@@ -5,7 +5,6 @@
 
 #define S_NULL ((void*)0)
 
-
 #include <stdint-gcc.h>
 #include <stdbool.h>
 
@@ -21,12 +20,6 @@ typedef signed long int32;
 typedef unsigned long long uint64;
 typedef signed long long int64;
 
-
-
-/*typedef unsigned long int __uint64_t;
-typedef __uint64_t uint64_t;*/
-
-
 #ifdef __x86_64__
     typedef uint64 size_t;
 #else
@@ -36,7 +29,6 @@ typedef __uint64_t uint64_t;*/
 #define min(a, b) (((a) > (b)) ? (b) : (a))
 #define max(a, b) (((a) > (b)) ? (a) : (b))
 
-
 #define outportb(port, value) asm("outb %b0, %w1"::"a"(value),"d"(port));
 #define outportw(port, value) asm("outw %w0, %w1"::"a"(value),"d"(port));
 #define outportl(port, value) asm("outl %0, %w1"::"a"(value),"d"(port));
@@ -44,8 +36,6 @@ typedef __uint64_t uint64_t;*/
 #define inportw(port, out_value) asm("inw %w1, %w0":"=a"(out_value):"d"(port));
 #define inportl(port, out_value) asm("inl %w1, %0":"=a"(out_value):"d"(port));
 
-
-// void memset(void *mem, char value, size_t count);
 void* memset(void* ptr, uint8_t val, size_t n);
 void memset_word(void *mem, uint16 value, size_t count);
 void memcpy(void *dest, void *src, size_t count);

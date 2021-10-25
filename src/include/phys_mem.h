@@ -20,8 +20,6 @@ void pmm_free_block(uintptr_t addr);
 bool pmm_is_block_alloced(uintptr_t addr);
 uintptr_t pmm_alloc_blocks(uint32_t count);
 void pmm_free_blocks(uintptr_t addr, uint32_t count);
-// void pmm_alloc_chunk(uintptr_t base_addr, size_t length);
-// void pmm_free_chunk(uintptr_t base_addr, size_t length);
 void pmm_free_available_memory(struct multiboot_info* mb);
 void update_phys_memory_bitmap_addr(uintptr_t addr);
 void pmm_test();

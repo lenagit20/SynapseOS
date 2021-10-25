@@ -33,7 +33,6 @@ void *kheap_morecore(uint32_t size) {
 		memset(&kheap_end, 0x00, PAGE_SIZE);
 	}
 	// return the start address of the memory we allocated to the heap
-	//tty_printf("(prev_kheap_end) = %x\n", prev_kheap_end);
 	return prev_kheap_end;
 }
 
@@ -50,7 +49,6 @@ void kheap_free(void *address) {
 		tmp_item->size = (uint32_t)kheap_begin;
 
 		tmp_item->size != 0; tmp_item = tmp_item->next) {
-		//tty_printf("tmp_item = %x\n", tmp_item);
 		if (tmp_item == item) {
 			// free it
 			tmp_item->used = false;
@@ -111,9 +109,6 @@ void *kheap_malloc(uint32_t size) {
 		tmp_item->size = PAGE_SIZE - (total_size%PAGE_SIZE ? total_size%PAGE_SIZE : total_size) - sizeof(kheap_item);
 		tmp_item->used = false;
 		tmp_item->next = 0;
-
-		//tty_printf("last_item = %x", last_item);why commenting this causes exception??? ANSWER IS BECAUSE OF FUCKING OPTIMIZATION -O1. i disabled it and it works now witout this line
-		//#error Page fault at 0xC040D9A0 ( read-only: pf caused by a write access, );
 		last_item->next = new_item->next;
 	}
 
@@ -140,7 +135,6 @@ void kheap_test() {
 	qemu_printf("\nkheap malloc");
 
 	uint8_t *mas = kheap_malloc(sz);
-    //mas[0x003FFFFF] = 17;
 	qemu_printf("\nkheap memset");
     memset(mas, 5, sz);
     tty_printf("mas[sz-1] = %d\n", mas[sz - 1]);
@@ -156,24 +150,14 @@ void kheap_test() {
     for (i = 0; i < cnt; i++) {
     	arr[i] = i*2;
     }
-    //tty_printf("\n");
-    /*for (i = 0; i < cnt; i++) {
-    	tty_printf("%d ", arr[i]);
-    }*/
     tty_printf("arr = %x", arr);
     kheap_print_stat();
-    //kheap_free(arr);
-    //tty_printf("\narr[0] = %d ", arr[1]);
-    //kheap_print_stat();
 
     int *arr2 = (int*)kheap_malloc(24*sizeof(int));
     for (i = 0; i < 24; i++) {
     	arr2[i] = i*3;
     }
     tty_printf("\n");
-    /*for (i = 0; i < 24; i++) {
-    	tty_printf("%d ", arr2[i]);
-    }*/
     tty_printf("arr2 = %x", arr2);
     kheap_print_stat();
     kheap_free(arr2);
@@ -187,9 +171,6 @@ void kheap_test() {
     	arr4[i] = i*2;
     }
     tty_printf("\n");
-    /*for (i = 0; i < 8200; i++) {
-    	tty_printf("%d ", arr4[i]);
-    }*/
     tty_printf("(arr4) = %x\n", arr4);
     tty_printf("(arr4-hdr) = %x   kheap_end = %x\n", (uint32_t)arr4 - (uint32_t)sizeof(kheap_item), kheap_end);//if without uint32_t will be icorrect result
     kheap_print_stat();

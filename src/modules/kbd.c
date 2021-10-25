@@ -121,7 +121,6 @@ char  keyboard_handler_main(void) {
     if  (status  &  0x01)  {
 		keyboard_get_input = 1;
 		keycode = inb(KEYBOARD_DATA_PORT);
-		// qemu_printf("%d\n", (int)keycode);
 		if (SHIFT == 0){
 			return keyboard_map[(unsigned char) keycode];
 		} else {

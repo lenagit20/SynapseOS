@@ -36,7 +36,6 @@ int eval_expr(const char *inp){
 			tty_printf("%s '%c'\n", INVALID_CHARACTER, inp[i]);
 		} else {
 			y= y*10 + (c - '0');
-			//tty_printf("y = %d\n", y);
 		}
 	}
 	process_op(op, &x, &y);
