@@ -48,7 +48,6 @@ void tty_init(void) {
 		}
 	}
 	tty_initialized = 1;
-	//tty_putchar('A');
 }
 
 void tty_backspace() {
@@ -78,7 +77,6 @@ void tty_putchar(char c) {
 	}
 
 	if (++tty_column == VGA_WIDTH || c == '\n') {
-	//qemu_printf("tty_line_fill = %x\n", tty_line_fill);
 		tty_line_fill[tty_row] = tty_column - 1;
 		tty_column = 0;
 		if (++tty_row == VGA_HEIGHT) {

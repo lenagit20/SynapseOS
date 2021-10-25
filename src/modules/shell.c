@@ -142,7 +142,7 @@ void shell_exec(char input_command[]) {
 		// Unknown command
 		
 		if ( math != 0 ){
-			NeraMAth(input_command);
+			NeraMath(input_command);
 		} else {
 			colors(3);
 			tty_printf("Unknown command [");

@@ -93,11 +93,6 @@ bool page_dir_entry_is_writable(page_dir_entry entry);
 uintptr_t page_dir_entry_frame(page_dir_entry entry);//return the address of physical frame which pde refers to
 
 void flush_tlb_entry(uintptr_t addr);//???
-/*void flush_tlb_all() {asm volatile("movl %%cr3, %%eax\n"
-	"movl %%eax, %%cr3" : : : "%eax");}*/
-
-//void page_dir_entry_enable_global(page_dir_entry entry) {}
-//----------------------------------------------------------------------------------
 
 extern void enable_paging(uintptr_t page_dir);
 

@@ -158,7 +158,6 @@ void pmm_free_blocks(uintptr_t addr, uint32_t count) {
 // Internal functions to allocate ranges of memory:
 
 void pmm_alloc_chunk(uintptr_t base_addr, size_t length) {
-    // qemu_printf("pmm_alloc_chunk\n");
     int cur_block_addr = (int)base_addr / PHYS_BLOCK_SIZE;
     int num_blocks = length / PHYS_BLOCK_SIZE;
     while (num_blocks-- >= 0)
@@ -186,7 +185,6 @@ void pmm_free_available_memory(struct multiboot_info* mb) {
     multiboot_memory_map_t* mm = (multiboot_memory_map_t*)mb->mmap_addr;
     #define DANGER_ZONE_BOUND 0x102000 // dont mark as free first MB, and 0x101000 - 0x102000 (there lives _boot_page_dir !)
     while ((unsigned int)mm < mb->mmap_addr + mb->mmap_length) {
-        //qemu_printf("freed\n");
         if (mm->type == MULTIBOOT_MEMORY_AVAILABLE) {
             if (mm->addr_low <= DANGER_ZONE_BOUND) { 
                 if (mm->addr_low + mm->len_low <= DANGER_ZONE_BOUND) {
@@ -213,8 +211,6 @@ void pmm_init(struct multiboot_info* mboot_info) {
     phys_used_block_count = phys_block_count; // initially all blocks are used
     phys_memory_bitmap = (uint32_t*)KERNEL_END_PADDR; // physical memory bitmap starts after kernel
     memset(phys_memory_bitmap, 0xFF, phys_block_count / 8); // initially we mark all installed memory as used
-    
-    // qemu_printf("Total blocks: %d\n", phys_block_count);
 
     // Frees memory GRUB considers available
     pmm_free_available_memory(mboot_info);
@@ -223,8 +219,7 @@ void pmm_init(struct multiboot_info* mboot_info) {
     pmm_alloc_chunk(KERNEL_START_PADDR, KERNEL_SIZE);
 
     qemu_printf("KERNEL_START_PADDR = %x, KERNEL_END_PADDR = %x, KERNEL_SIZE = %d bytes \n", KERNEL_START_PADDR, KERNEL_END_PADDR, KERNEL_SIZE);
-    // qemu_printf("MemMap addr = %x\n", mboot_info->mmap_addr);
-    
+
     // We also need to allocate the memory used by the Physical Map itself
     pmm_alloc_chunk((uintptr_t)phys_memory_bitmap, phys_block_count);
     kernel_phys_map_start = (uintptr_t)phys_memory_bitmap;

@@ -9,7 +9,7 @@ void process_op(char op, int *x, int *y) {
 	} else if (op == '*') {
 		*x *= *y; *y = 0;
 	} else if (op == '/') {
-		if (*x != 0 && *y != 0) {
+		if (*y != 0) {
 			*x /= *y; *y = 0;
 		} else {
 			tty_printf("%s\n",ZERO_DIVISION);
@@ -36,7 +36,6 @@ int eval_expr(const char *inp){
 			tty_printf("%s '%c'\n", INVALID_CHARACTER, inp[i]);
 		} else {
 			y= y*10 + (c - '0');
-			//tty_printf("y = %d\n", y);
 		}
 	}
 	process_op(op, &x, &y);
@@ -44,7 +43,7 @@ int eval_expr(const char *inp){
 	return x;
 }
 
-void NeraMAth(const char *input_text){
+void NeraMath(const char *input_text){
 	qemu_printf("\ninput_text = %s", input_text);
 
 	tty_printf("\nResult: %d\n", eval_expr(input_text));

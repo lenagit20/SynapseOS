@@ -39,7 +39,6 @@ void idt_init() {
 	idt.size = sizeof(IDTDescriptor_t) * INTERRUPTS_DESCRIPTOR_COUNT;
 	load_idt((uint32_t)&idt);
 
-	/*pic_remap(PIC_PIC1_OFFSET, PIC_PIC2_OFFSET);*/
 	pic_remap(PIC_1_OFFSET, PIC_2_OFFSET);
 }
 
@@ -47,21 +46,9 @@ void interrupt_handler(__attribute__((unused)) cpu_state_t cpu,
 	uint32_t interrupt,
 	stack_state_t stack
 ) {
-	// uint8_t scan_code;
-	// uint8_t ascii;
 
 	switch (interrupt) {
 		case INTERRUPTS_KEYBOARD:
-			// scan_code = keyboard_read_scan_code();
-			// if (scan_code <= KEYBOARD_MAX_ASCII) {
-			// 	ascii = keyboard_scan_code_to_ascii(scan_code);
-			// 	serial_configure_baud_rate(SERIAL_COM1_BASE, 4);
-			// 	serial_configure_line(SERIAL_COM1_BASE);
-			// 	char str[1];
-			// 	str[0] = ascii;
-			// 	serial_write(str, 1);
-			// }
-			// pic_acknowledge(interrupt);
 			keyboard_handler_main();
 			break;
 		

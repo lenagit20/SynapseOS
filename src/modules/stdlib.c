@@ -2,16 +2,6 @@
 #include "../include/qemu_log.h"
 #include "../include/tty.h"
 
-// char * exception_strings[] = { 
-//     "Divide Error","Reserved","NMI Interrupt","Breakpoint",
-//     "Overflow","BOUND Range Exceeded","Invalid Opcode",
-//     "Device Not Available","Double Fault","Coprocessor Segment Overrun",
-//     "Invalid TSS","Segment Not Present","Stack-Segment Fault",
-//     "General Protection Fault (GPF)","Page Fault","Reserved",
-//     "x87 FPU Error","Alignment Check","Machine Check",
-//     "SIMD Floating-Point Exception" 
-// };
-
 int abs(int number) {
   return number >= 0 ? number : -number;
 }
