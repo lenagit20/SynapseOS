@@ -211,8 +211,6 @@ void pmm_init(struct multiboot_info* mboot_info) {
     phys_used_block_count = phys_block_count; // initially all blocks are used
     phys_memory_bitmap = (uint32_t*)KERNEL_END_PADDR; // physical memory bitmap starts after kernel
     memset(phys_memory_bitmap, 0xFF, phys_block_count / 8); // initially we mark all installed memory as used
-    
-    // qemu_printf("Total blocks: %d\n", phys_block_count);
 
     // Frees memory GRUB considers available
     pmm_free_available_memory(mboot_info);
@@ -221,8 +219,7 @@ void pmm_init(struct multiboot_info* mboot_info) {
     pmm_alloc_chunk(KERNEL_START_PADDR, KERNEL_SIZE);
 
     qemu_printf("KERNEL_START_PADDR = %x, KERNEL_END_PADDR = %x, KERNEL_SIZE = %d bytes \n", KERNEL_START_PADDR, KERNEL_END_PADDR, KERNEL_SIZE);
-    // qemu_printf("MemMap addr = %x\n", mboot_info->mmap_addr);
-    
+
     // We also need to allocate the memory used by the Physical Map itself
     pmm_alloc_chunk((uintptr_t)phys_memory_bitmap, phys_block_count);
     kernel_phys_map_start = (uintptr_t)phys_memory_bitmap;
