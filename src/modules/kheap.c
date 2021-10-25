@@ -113,7 +113,7 @@ void *kheap_malloc(uint32_t size) {
 		tmp_item->next = 0;
 
 		//tty_printf("last_item = %x", last_item);why commenting this causes exception??? ANSWER IS BECAUSE OF FUCKING OPTIMIZATION -O1. i disabled it and it works now witout this line
-		#error Page fault at 0xC040D9A0 ( read-only: pf caused by a write access, );
+		//#error Page fault at 0xC040D9A0 ( read-only: pf caused by a write access, );
 		last_item->next = new_item->next;
 	}
 
