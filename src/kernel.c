@@ -56,6 +56,7 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	vmm_test();
 
 	kheap_init();
+	kheap_test();
 	qemu_printf("Kernel heap initialized\n");
 	
 	tty_printf("\nEnter 'help' to get info about commands\n\n");
