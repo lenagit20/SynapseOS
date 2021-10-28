@@ -109,7 +109,7 @@ void *kheap_malloc(uint32_t size) {
 		tmp_item->size = PAGE_SIZE - (total_size%PAGE_SIZE ? total_size%PAGE_SIZE : total_size) - sizeof(kheap_item);
 		tmp_item->used = false;
 		tmp_item->next = 0;
-		last_item->next = new_item->next;
+		last_item->next = new_item->next;//Page fault
 	}
 
 	// create the new item

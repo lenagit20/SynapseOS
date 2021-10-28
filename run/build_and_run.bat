@@ -69,11 +69,6 @@ echo Build drivers
 echo linking
 %CC% %LDFLAGS% -T %SRC%/link.ld -o bin/kernel.elf %OBJECTS% 
 
-echo Create iso
-cp bin/kernel.elf isodir/boot/kernel.elf
-cp %SRC%/grub.cfg isodir/boot/grub/grub.cfg
-ubuntu run grub-mkrescue -o SynapseOS.iso isodir/
-
 
 goto programm_done
 
@@ -92,7 +87,7 @@ endlocal & set "%1=%ut%" & goto :vars
 echo Done
 
 ::Qemu config
-qemu-system-i386 -m 2048 -boot d -cdrom SynapseOS.iso -monitor stdio -serial file:./run/Qemu_log.txt 
+qemu-system-i386 -d int -m 1024 -boot d -kernel bin/kernel.elf -monitor stdio -serial file:./run/Qemu_log.txt 
 ::-d mmu cpu_reset  -no-reboot 
 
 pause
