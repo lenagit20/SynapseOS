@@ -12,24 +12,19 @@
 #include <stddef.h>
 //-------------------------------------------------------------------
 
-typedef struct _KHEAPBLOCKBM {
-	struct _KHEAPBLOCKBM	                *next;
-	uint32					size;
-	uint32					used;
-	uint32					bsize;
-    uint32                                  lfb;
-} KHEAPBLOCKBM;
- 
-typedef struct _KHEAPBM {
-	KHEAPBLOCKBM			*fblock;
-} KHEAPBM;
- 
+typedef struct __attribute__((packed)) kheap_item //9 bytes yes?
+{
+	struct kheap_item *next;
+	uint32_t size;
+	unsigned char used;
+} kheap_item;
+
 
 void kheap_init();
 
 void *kheap_morecore(uint32_t size);
-void kheap_free(KHEAPBM *heap, void *ptr);
-void *kheap_malloc(KHEAPBM *heap, uint32 size);
+void kheap_free(void *address);
+void *kheap_malloc(uint32_t size);
 
 void kheap_print_stat();
 void kheap_test();

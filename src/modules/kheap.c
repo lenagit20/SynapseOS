@@ -2,150 +2,213 @@
 
 #include "../include/kheap.h"
 int kheap_is_init; // was kheap manager initialised or not.         TODO: is it unused?
+//virtual_addr kheap_last_alloc_addr; // address of last allocation
+virtual_addr kheap_begin; // address where kheap begins
+virtual_addr kheap_end; // address where kheap ends
+uint32_t kheap_memory_used; // how many memory was used
+int kheap_allocs_num; // how many allocations now
 
-void kheap_init(KHEAPBM *heap) {
-	heap->fblock = 0;
+
+void kheap_init()
+{
+	kheap_begin = KHEAP_START_VADDR;
+	kheap_end = NULL;
+
+	kheap_allocs_num = 0;
+	kheap_memory_used = 0;
+
+	//tty_printf("Kernel heap manager initialised!\n");
 }
- 
-int k_heapBMAddBlock(KHEAPBM *heap, uintptr_t addr, uint32 size, uint32 bsize) {
-	KHEAPBLOCKBM		*b;
-	uint32				bcnt;
-	uint32				x;
-	uint8				*bm;
- 
-	b = (KHEAPBLOCKBM*)addr;
-	b->size = size - sizeof(KHEAPBLOCKBM);
-	b->bsize = bsize;
- 
-	b->next = heap->fblock;
-	heap->fblock = b;
- 
-	bcnt = b->size / b->bsize;
-	bm = (uint8*)&b[1];
- 
-	/* clear bitmap */
-	for (x = 0; x < bcnt; ++x) {
-			bm[x] = 0;
+
+
+// increase kernel heap by some amount, this will be rounded up by the page size 
+void *kheap_morecore(uint32_t size)
+{
+	// calculate how many pages we will need
+	int pages = (size / PAGE_SIZE) + 1;
+	// when kheap_end == NULL we must create the initial heap
+	if (kheap_end == NULL)
+		kheap_end = kheap_begin;
+	// set the address to return
+	void *prev_kheap_end = kheap_end;
+	// create the pages
+	for (; pages-- > 0; kheap_end += PAGE_SIZE)
+	{
+		vmm_alloc_page(kheap_end);
+		memset(kheap_end, 0x00, PAGE_SIZE);
 	}
- 
-	/* reserve room for bitmap */
-	bcnt = (bcnt / bsize) * bsize < bcnt ? bcnt / bsize + 1 : bcnt / bsize;
-	for (x = 0; x < bcnt; ++x) {
-			bm[x] = 5;
-	}
- 
-	b->lfb = bcnt - 1;
- 
-	b->used = bcnt;
- 
-	return 1;
+	// return the start address of the memory we allocated to the heap
+	//tty_printf("(prev_kheap_end) = %x\n", prev_kheap_end);
+	return prev_kheap_end;
 }
- 
-static uint8 k_heapBMGetNID(uint8 a, uint8 b) {
-	uint8		c;	
-	for (c = a + 1; c == b || c == 0; ++c);
-	return c;
-}
- 
-void *kheap_malloc(KHEAPBM *heap, uint32 size) {
-	KHEAPBLOCKBM		*b;
-	uint8				*bm;
-	uint32				bcnt;
-	uint32				x, y, z;
-	uint32				bneed;
-	uint8				nid;
- 
-	/* iterate blocks */
-	for (b = heap->fblock; b; b = b->next) {
-		/* check if block has enough room */
-		if (b->size - (b->used * b->bsize) >= size) {
- 
-			bcnt = b->size / b->bsize;		
-			bneed = (size / b->bsize) * b->bsize < size ? size / b->bsize + 1 : size / b->bsize;
-			bm = (uint8*)&b[1];
- 
-			for (x = (b->lfb + 1 >= bcnt ? 0 : b->lfb + 1); x < b->lfb; ++x) {
-				/* just wrap around */
-				if (x >= bcnt) {
-					x = 0;
-				}		
- 
-				if (bm[x] == 0) {	
-					/* count free blocks */
-					for (y = 0; bm[x + y] == 0 && y < bneed && (x + y) < bcnt; ++y);
- 
-					/* we have enough, now allocate them */
-					if (y == bneed) {
-						/* find ID that does not match left or right */
-						nid = k_heapBMGetNID(bm[x - 1], bm[x + y]);
- 
-						/* allocate by setting id */
-						for (z = 0; z < y; ++z) {
-							bm[x + z] = nid;
-						}
- 
-						/* optimization */
-						b->lfb = (x + bneed) - 2;
- 
-						/* count used blocks NOT bytes */
-						b->used += y;
- 
-						return (void*)(x * b->bsize + (uintptr_t)&b[1]);
-					}
- 
-					/* x will be incremented by one ONCE more in our FOR loop */
-					x += (y - 1);
-					continue;
+
+
+// free a previously allocated item from the kernel heap
+void kheap_free(void *address)
+{
+	kheap_item *tmp_item, *item;
+	// sanity check
+	if (address == NULL) return;
+	// set the item to remove
+	item = (kheap_item*)((uint32_t)address - (uint32_t)sizeof(kheap_item));
+	// find it
+	for (tmp_item = kheap_begin; tmp_item != NULL; tmp_item = tmp_item->next)
+	{
+		//tty_printf("tmp_item = %x\n", tmp_item);
+		if (tmp_item == item)
+		{
+			// free it
+			tmp_item->used = 0;
+			kheap_memory_used -= tmp_item->size;
+			kheap_allocs_num--;
+			// coalesce any adjacent free items
+			for (tmp_item = kheap_begin; tmp_item != NULL; tmp_item = tmp_item->next)
+			{
+				while (!tmp_item->used && tmp_item->next != NULL && !tmp_item->next->used)
+				{
+					tmp_item->size += sizeof(kheap_item) + tmp_item->next->size;
+					tmp_item->next = tmp_item->next->next;
 				}
 			}
+			// break and return as we are finished
+			break;
 		}
 	}
- 
-	return 0;
-}
- 
-void kheap_free(KHEAPBM *heap, void *ptr) {
-	KHEAPBLOCKBM		*b;	
-	uintptr_t				ptroff;
-	uint32				bi, x;
-	uint8				*bm;
-	uint8				id;
-	uint32				max;
- 
-	for (b = heap->fblock; b; b = b->next) {
-		if ((uintptr_t)ptr > (uintptr_t)b && (uintptr_t)ptr < (uintptr_t)b + sizeof(KHEAPBLOCKBM) + b->size) {
-			/* found block */
-			ptroff = (uintptr_t)ptr - (uintptr_t)&b[1];  /* get offset to get block */
-			/* block offset in BM */
-			bi = ptroff / b->bsize;
-			/* .. */
-			bm = (uint8*)&b[1];
-			/* clear allocation */
-			id = bm[bi];
-			/* oddly.. GCC did not optimize this */
-			max = b->size / b->bsize;
-			for (x = bi; bm[x] == id && x < max; ++x) {
-				bm[x] = 0;
-			}
-			/* update free block count */
-			b->used -= x - bi;
-			return;
-		}
-	}
- 
-	/* this error needs to be raised or reported somehow */
-	return;
 }
 
-void kheap_test(){
-	KHEAPBM     kheap;
-    char        *ptr;
- 
-    kheap_init(&kheap);                              /* initialize the heap */
-    k_heapBMAddBlock(&kheap, 0x100000, 0x100000, 16);  /* add block to heap 
-                                                       (starting 1MB mark and length of 1MB) 
-                                                       with default block size of 16 bytes
-                                                       */
-    ptr = (char*)kheap_malloc(&kheap, 256);           /* allocate 256 bytes (malloc) */
-    kheap_free(&kheap, ptr);                         /* free the pointer (free) */
+
+// allocates an arbiturary size of memory (via first fit) from the kernel heap
+void *kheap_malloc(uint32_t size)
+{
+	kheap_item *new_item = NULL, *tmp_item;
+	uint32_t total_size;
+	// sanity check
+	if (size == 0) return NULL;
+
+	// round up by 8 bytes and add header size
+	total_size = ( ( size + 7 ) & ~7 ) + sizeof(kheap_item);
+
+	kheap_item *last_item;////////////////
+	// if the heap exists
+	if (kheap_end != NULL)
+	{
+		// search for first fit
+
+		for (new_item = kheap_begin; new_item != NULL; new_item = new_item->next)
+		{
+			if (new_item->next == NULL) last_item = new_item;////////////////
+
+			if (!new_item->used && (total_size <= new_item->size))
+				break;
+		}
+	}
+	// if we found one
+	if (new_item != NULL)
+	{
+		tmp_item = (kheap_item*)((uint32_t)new_item + total_size);
+		tmp_item->size = new_item->size - total_size;
+		tmp_item->used = 0;
+		tmp_item->next = new_item->next;
+	}
+	else
+	{
+		// didnt find a fit so we must increase the heap to fit
+		new_item = kheap_morecore(total_size);
+		if (new_item == NULL)
+		{
+			// return NULL as we are out of physical memory!
+			return NULL;
+		}
+		// create an empty item for the extra space kheap_morecore() gave us
+		// we can calculate the size because morecore() allocates space that is page aligned
+		tmp_item = (kheap_item*)((uint32_t)new_item + total_size);
+		tmp_item->size = PAGE_SIZE - (total_size%PAGE_SIZE ? total_size%PAGE_SIZE : total_size) - sizeof(kheap_item);
+		tmp_item->used = 0;
+		tmp_item->next = NULL;
+
+		//tty_printf("last_item = %x", last_item);///////////////why commenting this causes exception??? ANSWER IS BECAUSE OF FUCKING OPTIMIZATION -O1. i disabled it and it works now witout this line
+		last_item->next = new_item;/////////////////////
+	}
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! A KAK etot new_item svyazan c posledney item v spiske???? to est new_item eto ne poslednyaa item. solved!
+	// create the new item
+	new_item->size = size;
+	new_item->used = 1;
+	new_item->next = tmp_item;
+
+	kheap_allocs_num++;
+	kheap_memory_used += total_size;
+	// return the newly allocated memory location
+	return (void *)((uint32_t)new_item + (uint32_t)sizeof(kheap_item));//old (int)... + ...
+}
+
+void kheap_print_stat()
+{
+	tty_printf("\nallocs number = %d", kheap_allocs_num);
+	tty_printf("\nmemory used = %d bytes\n", kheap_memory_used);
+}
+
+void kheap_test()
+{
+
+	uint32_t sz = 1024*768*4;
+	uint8_t *mas = kheap_malloc(sz);
+    //mas[0x003FFFFF] = 17;
+    memset(mas, 5, sz);
+    tty_printf("mas[sz-1] = %d\n", mas[sz - 1]);
+    tty_printf("mas_addr = %x\n", mas);
+
+    kheap_print_stat();
+
+
+	int cnt = 12;
+    int *arr = (int*)kheap_malloc(cnt*sizeof(int));
+    int i;
+    for (i = 0; i < cnt; i++)
+    {
+    	arr[i] = i*2;
+    }
+    //tty_printf("\n");
+    /*for (i = 0; i < cnt; i++)
+    {
+    	tty_printf("%d ", arr[i]);
+    }*/
+    tty_printf("arr = %x", arr);
+    kheap_print_stat();
+    //kheap_free(arr);
+    //tty_printf("\narr[0] = %d ", arr[1]);
+    //kheap_print_stat();
+
+    int *arr2 = (int*)kheap_malloc(24*sizeof(int));
+    for (i = 0; i < 24; i++)
+    {
+    	arr2[i] = i*3;
+    }
+    tty_printf("\n");
+    /*for (i = 0; i < 24; i++)
+    {
+    	tty_printf("%d ", arr2[i]);
+    }*/
+    tty_printf("arr2 = %x", arr2);
+    kheap_print_stat();
+    kheap_free(arr2);
+    kheap_print_stat();
+
+    char *arr3 = (char*)kheap_malloc(5*sizeof(char));
+    tty_printf("arr3 = %x", arr3);
+
+    int *arr4 = (int*)kheap_malloc(8200*sizeof(int));
+    for (i = 0; i < 8200; i++)
+    {
+    	arr4[i] = i*2;
+    }
+    tty_printf("\n");
+    /*for (i = 0; i < 8200; i++)
+    {
+    	tty_printf("%d ", arr4[i]);
+    }*/
+    tty_printf("(arr4) = %x\n", arr4);
+    tty_printf("(arr4-hdr) = %x   kheap_end = %x\n", (uint32_t)arr4 - (uint32_t)sizeof(kheap_item), kheap_end);//if without uint32_t will be icorrect result
+    kheap_print_stat();
+    kheap_free(arr4);
+    kheap_print_stat();
 }
