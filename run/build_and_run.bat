@@ -24,9 +24,9 @@ SET AS=i686-elf-as
 SET CC=i686-elf-gcc
 SET LD=i686-elf-ld
 SET SRC=./src
-SET CCFLAGS=-O0 -std=gnu99 -ffreestanding -Wall -Wextra 
+SET CCFLAGS=-O0 -std=gnu99 -ffreestanding -Wextra 
 SET LDFLAGS=-O0 -ffreestanding -nostdlib -lgcc
-set OBJECTS_DRIVERS=bin/qemu_log.o bin/cpu_detect.o 
+set OBJECTS_DRIVERS=bin/qemu_log.o bin/cpu_detect.o  bin/vfs.o bin/initrd.o
 set OBJECTS=bin/kasm.o bin/irq_wrappers.o bin/kc.o bin/gdt.o bin/pic.o bin/idt.o %OBJECTS_DRIVERS% bin/time.o bin/shell.o bin/NeraMath.o bin/kbd.o bin/tty.o bin/ports.o bin/kheap.o bin/virt_mem.o bin/phys_mem.o bin/stdlib.o
 
 
@@ -65,6 +65,8 @@ echo Build modules
 
 echo Build drivers
 %CC% %CCFLAGS% -c %SRC%/modules/cpu_detect.c -o bin/cpu_detect.o
+%CC% %CCFLAGS% -c %SRC%/modules/vfs.c -o bin/vfs.o
+%CC% %CCFLAGS% -c %SRC%/modules/initrd.c -o bin/initrd.o
 
 echo linking
 %CC% %LDFLAGS% -T %SRC%/link.ld -o bin/kernel.elf %OBJECTS% 

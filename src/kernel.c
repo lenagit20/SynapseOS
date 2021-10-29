@@ -8,10 +8,12 @@
 #include "include/phys_mem.h"
 #include "include/virt_mem.h"
 #include "include/kheap.h"
+#include "include/vfs.h"
 #include "include/shell.h"
 #include "include/multiboot.h"
 #include "include/time.h"
 #include "include/stdlib.h"
+
 
 int Exit = 0;
 
@@ -57,6 +59,8 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	kheap_init();
 	kheap_test();
 	qemu_printf("Kernel heap initialized\n");
+	vfs_init();
+
 
 	shell_exec("logo");
 	shell_exec("time");
@@ -65,7 +69,6 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	tty_setcolor(VGA_COLOR_LIGHT_GREEN);
 	tty_printf(">");
 	tty_setcolor(VGA_COLOR_LIGHT_CYAN);
-
 	// While the kernel is working we get input from keyboard
 	while(Exit != 1){
 		check_keyboard();
