@@ -160,22 +160,32 @@ void page_fault_handler(stack_state_t stack) {
 	uint32_t us = stack.error_code & 0x4;
 	uint32_t reserved = stack.error_code & 0x8;
 	uint32_t ifetch = stack.error_code & 0x10;
+	tty_printf("Page fault at %x ( ", faulting_address);
 	qemu_printf("Page fault at %x ( ", faulting_address);
 	if (present)
+		tty_printf("present: page is present, ");
 		qemu_printf("present: page is present, ");
 	if (rw)
+		tty_printf("read-only: pf caused by a write access, ");
 		qemu_printf("read-only: pf caused by a write access, ");
 	if (us)
+		tty_printf("user-mode ");
 		qemu_printf("user-mode ");
 	if (reserved)
+		tty_printf("reserved ");
 		qemu_printf("reserved ");
 	if (ifetch)
+		tty_printf("instruction fetch ");
 		qemu_printf("instruction fetch ");
+	tty_printf(");\n");
 	qemu_printf(");\n");
 	uint32_t cr4;
 	asm volatile( "movl %%cr4, %0" : "=r" (cr4) );
+	tty_printf("  cr4 = %x\n", cr4);
 	qemu_printf("  cr4 = %x\n", cr4);
+	tty_printf("  PDE(%x) = %x\n", faulting_address, *GET_PDE(faulting_address));
 	qemu_printf("  PDE(%x) = %x\n", faulting_address, *GET_PDE(faulting_address));
+	tty_printf("  PTE(%x) = %x\n", faulting_address, *GET_PTE(faulting_address));
 	qemu_printf("  PTE(%x) = %x\n", faulting_address, *GET_PTE(faulting_address));
 	for (;;); // halt system
 }
