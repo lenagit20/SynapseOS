@@ -57,8 +57,10 @@ void main(multiboot_info_t* mboot_info, unsigned int magic) {
 	kheap_init();
 	kheap_test();
 	qemu_printf("Kernel heap initialized\n");
+
 	shell_exec("logo");
 	shell_exec("time");
+	
 	tty_printf("\nEnter 'help' to get info about commands\n\n");
 	tty_setcolor(VGA_COLOR_LIGHT_GREEN);
 	tty_printf(">");

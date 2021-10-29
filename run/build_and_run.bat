@@ -87,7 +87,7 @@ endlocal & set "%1=%ut%" & goto :vars
 echo Done
 
 ::Qemu config
-qemu-system-i386  -m 1024 -boot d -kernel bin/kernel.elf -monitor stdio -serial file:./run/Qemu_log.txt 
+qemu-system-i386  -m 5 -boot d -kernel bin/kernel.elf -monitor stdio -serial file:./run/Qemu_log.txt 
 ::-d mmu cpu_reset  -no-reboot 
 
 pause
