@@ -29,7 +29,7 @@ unsigned char registerB;
 
 enum {
 	cmos_address = 0x70,
-	cmos_data    = 0x71
+	cmos_data	 = 0x71
 };
 
 
@@ -46,8 +46,45 @@ unsigned char get_RTC_register(int reg) {
 
 
 void io_wait(){
-    outb(0x80, 0);
+	 outb(0x80, 0);
 }
+
+
+void ReadFromCMOS (unsigned char array []) {
+	unsigned char tvalue, index;
+ 
+	for(index = 0; index < 128; index++){
+		asm("cli");				 /* Disable interrupts*/
+		__asm__("mov al,%0" : "=r" (index));    /* move index address*/
+		/* since the 0x80 bit of al is not set, NMI is active */
+		asm("out 0x70,al");	  /* Copy address to CMOS register*/
+			/* some kind of real delay here is probably best */
+		asm("in al,0x71");		/* Fetch 1 byte to al*/
+		asm("sti");				 /* Enable interrupts*/
+		__asm__("mov %0,al" : "=r" (tvalue));   /* move value to al*/
+ 
+		array[index] = tvalue;
+	}
+}
+
+
+void WriteTOCMOS(unsigned char array[]) {
+	unsigned char index;
+
+	for(index = 0; index < 128; index++) {
+
+		unsigned char tvalue = array[index];
+
+        asm("cli");             /* Clear interrupts*/
+        __asm__("mov al,%0" : "=r" (index));    /* move index address*/
+        asm("out 0x70,al");     /* copy address to CMOS register*/
+         /* some kind of real delay here is probably best */
+        __asm__("mov al,%0" : "=r" (tvalue));   /* move value to al*/
+        asm("out 0x71,al");     /* write 1 byte to CMOS*/
+        asm("sti");             /* Enable interrupts*/
+   }
+}
+
 
 void read_rtc() {
 	// Note: This uses the "read registers until you get the same values twice in a row" technique
@@ -76,7 +113,7 @@ void read_rtc() {
 		last_year = year;
 		last_century = century;
  
-		while (get_update_in_progress_flag());	   // Make sure an update isn't in progress
+		while (get_update_in_progress_flag());		// Make sure an update isn't in progress
 
 		second = get_RTC_register(0x00);
 		minute = get_RTC_register(0x02);

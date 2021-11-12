@@ -49,7 +49,7 @@ echo Build kernel
 
 echo Build modules
 %CC% %CCFLAGS% -c %SRC%/modules/stdlib.c -o ./bin/stdlib.o
-%CC% %CCFLAGS% -c %SRC%/modules/time.c -o ./bin/time.o
+%CC% %CCFLAGS% -masm=intel -c %SRC%/modules/time.c -o ./bin/time.o
 %CC% %CCFLAGS% -c %SRC%/modules/phys_mem.c -o ./bin/phys_mem.o
 %CC% %CCFLAGS% -c %SRC%/modules/virt_mem.c -o ./bin/virt_mem.o
 %CC% %CCFLAGS% -c %SRC%/modules/kheap.c -o ./bin/kheap.o
