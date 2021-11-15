@@ -2,8 +2,12 @@
 
 # floppya: 1_44="A.img", status=inserted
 # floppyb: 1_44="B.img", status=inserted
-vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
-ata0-master: type=cdrom, path=../SynapseOS.iso, status=inserted
+#vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest
+#ata0-master: type=cdrom, path=../SynapseOS.iso, status=inserted
 megs: 512
 log: bochsout.txt
-boot: cdrom
+#boot: cdrom
+
+floppya: 1_44=../bin/kernel.elf, status=inserted
+boot: floppy
+floppy_bootsig_check: disabled=1

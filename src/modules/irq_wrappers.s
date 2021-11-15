@@ -4,19 +4,17 @@
 
 
 .macro no_error_code_handler idt_index
-.global interrupt_handler_\idt_index
 interrupt_handler_\idt_index:
-    cli
     push 0
     push \idt_index
+	.global interrupt_handler_\idt_index
     jmp  common_interrupt_handler
 .endm
 
 .macro error_code_handler idt_index
-.global interrupt_handler_\idt_index
 interrupt_handler_\idt_index:
-    cli
     push \idt_index
+	.global interrupt_handler_\idt_index
     jmp  common_interrupt_handler
 .endm
 
@@ -28,13 +26,7 @@ interrupt_handler_\idt_index:
 # the common parts of the generic interrupt handler             
 common_interrupt_handler:
 	# save the registers
-	push    eax
-	push    ebx
-	push	ecx
-	push	edx
-	push	ebp
-	push	esi
-	push	edi
+	pusha
 
 	# call the C function
 	call    interrupt_handler
@@ -46,7 +38,7 @@ common_interrupt_handler:
 	pop	edx
 	pop	ecx
 	pop	ebx
-	pop     eax
+	pop eax
 
 	# restore the esp
 	add     esp, 8
@@ -58,3 +50,4 @@ common_interrupt_handler:
 no_error_code_handler 33
 # create handler for interrupt 2 (paging)
 error_code_handler 14
+

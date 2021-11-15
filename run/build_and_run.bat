@@ -24,9 +24,9 @@ SET AS=i686-elf-as
 SET CC=i686-elf-gcc
 SET LD=i686-elf-ld
 SET SRC=./src
-SET CCFLAGS=-O0 -g -std=gnu99 -ffreestanding -Wextra 
-SET LDFLAGS=-O0 -g -ffreestanding -nostdlib -lgcc
-set OBJECTS_DRIVERS=bin/qemu_log.o bin/cpu_detect.o  bin/vfs.o bin/scheduler.o
+SET CCFLAGS= -O0 -g -std=gnu99 -ffreestanding -Wextra 
+SET LDFLAGS= -O0 -g -ffreestanding -nostdlib -lgcc
+set OBJECTS_DRIVERS=bin/qemu_log.o bin/cpu_detect.o bin/scheduler.o
 set OBJECTS=bin/kasm.o bin/irq_wrappers.o bin/kc.o bin/gdt.o bin/pic.o bin/idt.o %OBJECTS_DRIVERS% bin/time.o bin/shell.o bin/NeraMath.o bin/kbd.o bin/tty.o bin/ports.o bin/kheap.o bin/virt_mem.o bin/phys_mem.o bin/stdlib.o
 
 
@@ -40,8 +40,9 @@ IF EXIST "./bin/" (
 
 echo Build asm kernel
 fasm %SRC%/kernel.asm bin/kasm.o
+::%CC% %CCFLAGS% -c %SRC%/kernel.s -o bin/kasm.o
+%CC% -O0 -g -std=gnu99 -ffreestanding -Wextra -c %SRC%/modules/irq_wrappers.s -o bin/irq_wrappers.o
 ::fasm %SRC%/modules/irq_wrappers.asm bin/irq_wrappers.o
-%CC% %CCFLAGS% -c %SRC%/modules/irq_wrappers.s -o bin/irq_wrappers.o
 
 
 
@@ -67,30 +68,19 @@ echo Build modules
 echo Build drivers
 %CC% %CCFLAGS% -c %SRC%/modules/cpu_detect.c -o bin/cpu_detect.o
 %CC% %CCFLAGS% -c %SRC%/modules/scheduler.c -o bin/scheduler.o
-%CC% %CCFLAGS% -c %SRC%/modules/vfs.c -o bin/vfs.o
+::%CC% %CCFLAGS% -c %SRC%/modules/vfs.c -o bin/vfs.o
 
 echo linking
 %CC% %LDFLAGS% -T %SRC%/link.ld -o bin/kernel.elf %OBJECTS% 
 
 
-goto programm_done
-
-
-:GetUnixTime
-setlocal enableextensions
-for /f %%x in ('wmic path win32_utctime get /format:list ^| findstr "="') do (
-    set %%x)
-set /a z=(14-100%Month%%%100)/12, y=10000%Year%%%10000-z
-set /a ut=y*365+y/4-y/100+y/400+(153*(100%Month%%%100+12*z-3)+2)/5+Day-719469
-set /a ut=ut*86400+100%Hour%%%100*3600+100%Minute%%%100*60+100%Second%%%100
-endlocal & set "%1=%ut%" & goto :vars
 
 
 :programm_done
 echo Done
 
 ::Qemu config
-qemu-system-i386  -m 5 -boot d -kernel bin/kernel.elf -monitor stdio -serial file:./run/Qemu_log.txt 
+qemu-system-i386  -m 5 -boot d -kernel bin/kernel.elf -serial file:./run/Qemu_log.txt -no-reboot
 ::-d mmu cpu_reset  -no-reboot 
 
 pause

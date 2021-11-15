@@ -1,5 +1,5 @@
 #include "../include/vfs.h"
-
+/*
 
 #define MOUNTPOINTS_SIZE 100
 
@@ -302,4 +302,4 @@ void vfs_init()
 	//tty_printf("\nVFS: Allocating memory for structures.");    
 	vfs_mount_points = (vfs_mount_info_t **)kheap_malloc(sizeof(vfs_mount_info_t) * MOUNTPOINTS_SIZE);
 	__vfs_init = 1;
-}
+}*/

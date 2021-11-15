@@ -22,13 +22,7 @@ section '.text' executable
 
 common_interrupt_handler:                ; the common parts of the generic interrupt handler
 	; save the registers
-	push    eax
-	push    ebx
-	push	ecx
-	push	edx
-	push	ebp
-	push	esi
-	push	edi
+	pusha
 
 	; call the C function
 	call    interrupt_handler
