@@ -1,7 +1,7 @@
 echo Building SynapseOS
 
 ::
-SET AS=i686-elf-as
+SET AS=x86_64-elf-as
 SET CC=x86_64-elf-gcc
 SET LD=x86_64-elf-ld
 
