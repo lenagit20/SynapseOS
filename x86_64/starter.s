@@ -1,3 +1,5 @@
+.code32
+
 # Declare constants for the multiboot header.
 .set ALIGN,    1<<0             # align loaded modules on page boundaries
 .set MEMINFO,  1<<1             # provide memory map
@@ -111,9 +113,11 @@ _start:
 	# Set up the stack.
 	mov $stack_top, %esp
 
+	.code64
 	# Enter the high-level kernel.
 	call kernel_main
-
+	.code32
+	
 	# Infinite loop if the system has nothing more to do.
 	cli
 1:	hlt

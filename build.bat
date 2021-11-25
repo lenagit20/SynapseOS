@@ -6,19 +6,20 @@ SET AS=x86_64-elf-as
 SET CC=x86_64-elf-gcc
 SET LD=x86_64-elf-ld
 
-SET CCFLAGS= -O0 -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -wall -Wextra -masm=intel
-SET LDFLAGS= -O0 -g -ffreestanding -mcmodel=large -mno-red-zone -mno-mmx -mno-sse -mno-sse2 -wall -Wextra -nostdlib -lgcc -masm=intel
+SET CCFLAGS= -O2 -g -ffreestanding -Wall -Wextra -mcmodel=large
+SET LDFLAGS= -O2 -g -ffreestanding -Wall -Wextra -nostdlib -lgcc -mcmodel=large
 
 :: Checking for the presence of a folder and, if not, creating one
-IF EXIST "./bin/" (
+IF EXIST "bin/" (
     echo Cleaning bin folder
-    del ./bin/*
+    del bin/*
 ) ELSE (
-    mkdir bin & mkdir isodir & cd isodir & mkdir boot & cd boot & mkdir grub & cd ../../
+    mkdir bin
 )
 
 echo Using %CCFLAGS%
-%CC% %CCFLAGS% -c ./kernel/kernel.c -o ./bin/kc.o
-
+%CC% %CCFLAGS% -c kernel/kernel.c -o bin/kernel.o
+%CC% %CCFLAGS% -c x86_64/starter.s -o bin/starter.o
+%CC% %LDFLAGS% -T x86_64/link.ld -o bin/kernel.elf bin/kernel.o bin/starter.o
 
 pause
