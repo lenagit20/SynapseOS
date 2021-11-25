@@ -1,3 +1,4 @@
+@Echo off
 echo Building SynapseOS
 
 ::
@@ -20,3 +21,4 @@ echo Using %CCFLAGS%
 %CC% %CCFLAGS% -c ./kernel/kernel.c -o ./bin/kc.o
 
 
+pause
