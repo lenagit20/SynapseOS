@@ -7,11 +7,3 @@
 
 #include <stdint.h>
 #include <io/tty.h>
-
-
-
-#ifdef __x86_64__
-    typedef uint64 size_t;
-#else
-    typedef uint32 size_t;
-#endif

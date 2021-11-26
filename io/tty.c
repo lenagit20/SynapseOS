@@ -5,12 +5,22 @@
 
 #include <kernel.h>
 #include <io/tty.h>
-#include <stdint.h>
+
 
 uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000;
 
 int col;
 int row;
+
+
+void clean_screen(){
+    for (int i; i < 2000; i++){
+        terminal_buffer[i] = 0;
+    }
+    col = 0;
+    row = 0;
+}
+
 
 void putc(const char c){
     const size_t index = row * 80 + col;
