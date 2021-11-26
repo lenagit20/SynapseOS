@@ -7,3 +7,4 @@
 
 #include <stdint.h>
 #include <io/tty.h>
+#include <stddef.h>

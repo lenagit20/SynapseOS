@@ -7,7 +7,7 @@
 #include <io/tty.h>
 
 
-uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000;
+uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // VGA memory adress
 
 int col;
 int row;

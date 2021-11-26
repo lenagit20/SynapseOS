@@ -7,20 +7,19 @@
 
 
 #include <kernel.h>
-#include <stddef.h>
 
 
-#define cols 80; // Screen width
-#define rows 25; // Screen height
+#define COLS 80;                  // Screen width
+#define ROWS 25;                  // Screen height
+#define SCREEN_SIZE 2000;         // Screen height
 
 
-// VGA buffer for terminal
-extern uint16_t* terminal_buffer;
+extern uint16_t* terminal_buffer; // VGA buffer for terminal
 
 // Cursor positions
-extern int col;
-extern int row;
+extern int col;                   // Column (80 max)
+extern int row;                   // Row (25 max)
 
 
-void clean_screen();
-void putc(const char c);
+void clean_screen();              // Clean screen function
+void putc(const char c);          // Write a char function
