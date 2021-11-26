@@ -6,7 +6,7 @@ SET AS=i686-elf-as
 SET CC=i686-elf-gcc
 SET LD=i686-elf-ld
 
-SET CCFLAGS=-I include -ffreestanding -Wall -Wextra
+SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra -O2
 SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
 :: 
