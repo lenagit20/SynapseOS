@@ -3,8 +3,7 @@
     Distributed under terms of the Creative Commons Zero v1.0 Universal License.
 */
 
-#ifndef TTY_H
-#define TTY_H
+#pragma once
 
 
 #include <kernel.h>
@@ -20,6 +19,3 @@ uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000;
 int col;
 int row;
 
-
-
-#endif
