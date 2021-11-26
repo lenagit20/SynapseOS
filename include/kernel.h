@@ -9,12 +9,6 @@
 #include <io/tty.h>
 
 
-typedef unsigned long uint32;
-typedef signed long int32;
-
-typedef unsigned long long uint64;
-typedef signed long long int64;
-
 
 #ifdef __x86_64__
     typedef uint64 size_t;
