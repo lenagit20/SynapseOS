@@ -6,8 +6,8 @@ SET AS=i686-elf-as
 SET CC=i686-elf-gcc
 SET LD=i686-elf-ld
 
-SET CCFLAGS= -ffreestanding -Wall -Wextra
-SET LDFLAGS= -ffreestanding -Wall -Wextra -nostdlib -lgcc
+SET CCFLAGS=-I include -ffreestanding -Wall -Wextra
+SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
 :: 
 RMDIR "bin" /S /Q

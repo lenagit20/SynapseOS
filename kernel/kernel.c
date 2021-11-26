@@ -1,11 +1,13 @@
-#include <stdint.h>
+/*
+    Copyright (C) Aren Elchinyan 2021. All rights reserved.
+    Distributed under terms of the Creative Commons Zero v1.0 Universal License.
+*/
 
-// VGA buffer for terminal
-uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000;
+#include <kernel.h>
 
 
 void kernel_main() {
-    for (int i; i != 2048; i++){
+    for (int i = 0; i != 2048; i++){
         terminal_buffer[i] = i + 1;
     }
     while (1);
