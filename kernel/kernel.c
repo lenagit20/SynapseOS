@@ -7,9 +7,9 @@
 
 
 void kernel_main() {
-    for (int i = 0; i != 2048; i++){
-        terminal_buffer[i] = i + 1;
-    }
+    
+    putc('h');
+    putc('i');
     while (1);
 
     /*

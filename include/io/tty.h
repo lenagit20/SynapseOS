@@ -12,10 +12,13 @@
 #define rows 25; // Screen height
 
 // VGA buffer for terminal
-uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000;
+extern uint16_t* terminal_buffer;
 
 
 // Cursor positions
-int col;
-int row;
+extern int col;
+extern int row;
 
+
+
+void putc(const char c);
