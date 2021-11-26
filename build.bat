@@ -2,20 +2,22 @@
 echo Building SynapseOS
 
 ::
-SET AS=x86_64-elf-as
-SET CC=x86_64-elf-gcc
-SET LD=x86_64-elf-ld
+SET AS=i686-elf-as
+SET CC=i686-elf-gcc
+SET LD=i686-elf-ld
 
-SET CCFLAGS= -O2 -g -ffreestanding -Wall -Wextra -mcmodel=large
-SET LDFLAGS= -O2 -g -ffreestanding -Wall -Wextra -nostdlib -lgcc -mcmodel=large
+SET CCFLAGS= -ffreestanding -Wall -Wextra
+SET LDFLAGS= -ffreestanding -Wall -Wextra -nostdlib -lgcc
 
-:: Checking for the presence of a folder and, if not, creating one
+:: 
+RMDIR "bin" /S /Q
 mkdir bin
 
-
+::
 echo Using %CCFLAGS%
 %CC% %CCFLAGS% -c kernel/kernel.c -o bin/kernel.o
-%CC% %CCFLAGS% -c x86_64/starter.s -o bin/starter.o
-%CC% %LDFLAGS% -T x86_64/link.ld -o bin/kernel.elf bin/kernel.o bin/starter.o
+%CC% %CCFLAGS% -c x86/starter.s -o bin/starter.o
+%CC% %LDFLAGS% -T x86/link.ld -o bin/kernel.elf bin/kernel.o bin/starter.o
+
 
 pause

@@ -1,5 +1,3 @@
-#include <stdbool.h>
-#include <stddef.h>
 #include <stdint.h>
 
 // VGA buffer for terminal
@@ -7,8 +5,11 @@ uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000;
 
 
 void kernel_main() {
-    terminal_buffer[0] = 1;
+    for (int i; i != 2048; i++){
+        terminal_buffer[i] = i + 1;
+    }
     while (1);
+
     /*
 Отче наш, Иже еси на небесе́х!
 Да святится имя Твое, да прии́дет Царствие Твое,
