@@ -14,7 +14,7 @@ int row;
 
 
 void clean_screen(){
-    for (int i; i < 2000; i++){
+    for (int i = 0; i < 2000; i++){
         terminal_buffer[i] = 0;
     }
     col = 0;
