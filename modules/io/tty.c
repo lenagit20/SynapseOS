@@ -24,9 +24,14 @@ void clean_screen(){
 
 
 void putc(const char c){
+    if (++col == 81){
+        col = 0;
+        if (++row == 26){
+            row = 25;
+        }
+    }
     const size_t index = row * 80 + col;
     terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
-    col++;
 }
 
 void puts(const char c[]){
