@@ -5,7 +5,11 @@
 
 #include <libc/string.h>
 
+/*
+    strlen is needed to calculate the length of the string.
 
+    str - the string the length of which you need to find out
+*/
 int strlen(const char *str) {
 	int len = 0;
 	while (str[len] != 0) {
@@ -15,6 +19,8 @@ int strlen(const char *str) {
 }
 
 /*
+    memcpy is needed to copy disjoint arrays.
+
     destination - a pointer to the array into which the data will be copied.
     source - a pointer to an array of the source of the copied data.
     n - the number of bytes to copy.
@@ -31,6 +37,8 @@ void *memcpy(void *destination, const void *source, size_t n){
 
 
 /*
+    memset is needed to fill the array with the specified characters.
+
     destination - a pointer to the array to fill
     c - character code to fill
     n - the size of the filled part of the array in bytes
