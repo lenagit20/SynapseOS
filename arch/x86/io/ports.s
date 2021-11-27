@@ -1,10 +1,10 @@
 .code32
 
-.type port_outb, @function
+.type port_outb_asm, @function
 
-.global port_outb
+.global port_outb_asm
 
-port_outb:
+port_outb_asm:
     push    ebp
     mov     ebp, esp
     sub     esp, 8

@@ -5,9 +5,9 @@
 
 #include <io/ports.h>
 
-extern void port_outb(uint16_t port, uint8_t  val);
+extern void port_outb_asm(uint16_t port, uint8_t  val);
 
 
 void port_outb(uint16_t port, uint8_t  val){
-    port_outb(port, val);
+    port_outb_asm(port, val);
 }
