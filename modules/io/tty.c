@@ -12,6 +12,7 @@ uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // VGA memory adress
 int col;
 int row;
 
+
 /*
     clear_screen is used to clear the screen
 */

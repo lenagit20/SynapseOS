@@ -3,7 +3,9 @@
     Distributed under terms of the Creative Commons Zero v1.0 Universal License.
 */
 
+
 #include <libc/string.h>
+
 
 /*
     strlen is needed to calculate the length of the string.
