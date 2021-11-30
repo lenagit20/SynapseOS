@@ -12,7 +12,9 @@ uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // VGA memory adress
 int col;
 int row;
 
-
+/*
+    clear_screen is used to clear the screen
+*/
 void clean_screen(){
     for (int i = 0; i < 2000; i++){
         terminal_buffer[i] = 0;
@@ -22,7 +24,11 @@ void clean_screen(){
     row = 0;
 }
 
+/*
+    putc is used to print char
 
+    c - a symbol that must be displayed on the screen.
+*/
 void putc(const char c){
     if (++col == 81){
         col = 0;
@@ -34,6 +40,11 @@ void putc(const char c){
     terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
 }
 
+/*
+    putc is used to print string
+
+    c - a string that must be displayed on the screen.
+*/
 void puts(const char c[]){
     for (int i = 0; i < strlen(c); i++){
         putc(c[i]);
