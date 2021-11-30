@@ -14,13 +14,6 @@
 #define SCREEN_SIZE COLS * ROWS;         // Screen height
 
 
-extern uint16_t* terminal_buffer; // VGA buffer for terminal
-
-// Cursor positions
-extern int col;                   // Column (80 max)
-extern int row;                   // Row (25 max)
-
-
 void clean_screen();              // Clean screen function
 void putc(const char c);          // Write a char function
 void puts(const char c[]);        // Write a string function
