@@ -5,8 +5,5 @@
 
 #pragma once
 
-#include <stdint.h>
-#include <stddef.h>
 
 #include <io/tty.h>
-#include <libc/string.h>

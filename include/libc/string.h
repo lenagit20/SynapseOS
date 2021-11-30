@@ -6,7 +6,7 @@
 #pragma once
 
 
-#include <kernel.h>
+#include <stddef.h>
 
 
 int strlen(const char *str);

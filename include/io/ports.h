@@ -6,6 +6,7 @@
 #pragma once
 
 
-#include <kernel.h>
+#include <stdint.h>
+
 
 void port_outb(uint16_t port, uint8_t  val);

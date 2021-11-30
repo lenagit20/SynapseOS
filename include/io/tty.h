@@ -6,7 +6,8 @@
 #pragma once
 
 
-#include <kernel.h>
+#include <stdint.h>
+#include <stddef.h>
 
 
 #define COLS 80                   // Screen width
