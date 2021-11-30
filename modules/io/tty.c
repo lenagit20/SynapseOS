@@ -16,9 +16,7 @@ int row;
     clear_screen is used to clear the screen
 */
 void clean_screen(){
-    for (int i = 0; i < 2000; i++){
-        terminal_buffer[i] = 0;
-    }
+    memset(terminal_buffer, 0, SCREEN_SIZE);
 
     col = 0;
     row = 0;

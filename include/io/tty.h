@@ -9,9 +9,9 @@
 #include <kernel.h>
 
 
-#define COLS 80;                  // Screen width
-#define ROWS 25;                  // Screen height
-#define SCREEN_SIZE COLS * ROWS;         // Screen height
+#define COLS 80                   // Screen width
+#define ROWS 25                   // Screen height
+#define SCREEN_SIZE COLS * ROWS   // Screen height
 
 
 void clean_screen();              // Clean screen function
