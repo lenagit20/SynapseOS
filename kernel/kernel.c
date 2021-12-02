@@ -8,7 +8,8 @@
 
 
 /*
-    kernel_main is the main function of the kernel. It initializes the core modules and the main cycle has been declared.
+    kernel_main is the main function of the kernel. 
+    It initializes the core modules and the main cycle has been declared.
 */
 void kernel_main() {
     clean_screen();
