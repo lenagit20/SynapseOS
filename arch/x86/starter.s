@@ -98,7 +98,20 @@ _start:
 	lea 4f, %ecx
 	jmp *%ecx
 
+
 .section .text
+
+jmp skip_idt
+
+.global load_idt
+
+idt_load:
+    mov 4(%esp), %eax
+    lidt (%eax)
+    ret
+
+skip_idt:
+
 
 4:
 	# At this point, paging is fully set up and enabled.
