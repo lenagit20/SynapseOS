@@ -4,6 +4,7 @@
 */
 
 #include <io/tty.h>
+#include <io/ports.h>
 #include <libc/string.h>
 
 
@@ -13,6 +14,25 @@ int col;
 int row;
 
 
+
+/*
+    update_cursor is used to move cursor
+
+    row - current row
+    col - current column
+*/
+void update_cursor(size_t row, size_t col) {
+    unsigned short position = (row * COLS) + col;
+
+    // cursor LOW port to vga INDEX register
+    port_outb(0x3D4, 0x0F);
+    port_outb(0x3D5, (unsigned char)(position & 0xFF));
+
+    // cursor HIGH port to vga INDEX register
+    port_outb(0x3D4, 0x0E);
+    port_outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
+}
+
 /*
     clear_screen is used to clear the screen
 */
@@ -21,6 +41,7 @@ void clean_screen(){
 
     col = 0;
     row = 0;
+    update_cursor(col, row);
 }
 
 /*
@@ -37,6 +58,7 @@ void putc(const char c){
     }
     const size_t index = row * 80 + col;
     terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
+    update_cursor(col, row);
 }
 
 /*
