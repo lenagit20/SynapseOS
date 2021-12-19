@@ -8,7 +8,7 @@
 #include <libc/string.h>
 
 
-uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // VGA memory adress
+uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // Text based output using MMIO
 
 int col;
 int row;
