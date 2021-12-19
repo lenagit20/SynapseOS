@@ -7,3 +7,4 @@
 
 
 #include <io/tty.h>
+#include <interrupts.h>
