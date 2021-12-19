@@ -42,6 +42,7 @@ echo Compiling kernel libc
 
 echo Compiling %ARCH% modules
 %CC% %CCFLAGS% -c %ARCH%/starter.s -o bin/%ARCH%/starter.o
+%CC% %CCFLAGS% -c %ARCH%/interrupts.c -o bin/%ARCH%/interrupts.o
 %CC% %CCFLAGS% -c %ARCH%/io/ports.c -o bin/%ARCH%/io/ports.o
 %CC% %LDFLAGS% -T %ARCH%/link.ld -o bin/kernel.elf %OBJECTS%
 
