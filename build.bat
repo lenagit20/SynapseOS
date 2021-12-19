@@ -11,7 +11,7 @@ SET LD=i686-elf-ld
 SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra
 SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
-set OBJECTS=bin/kernel.o bin/%ARCH%/starter.o bin/io/tty.o bin/%ARCH%/io/ports.o bin/libc/string.o  
+set OBJECTS=bin/kernel.o bin/%ARCH%/starter.o bin/io/tty.o bin/%ARCH%/io/ports.o bin/%ARCH%/interrupts.o bin/libc/string.o  
 
 :: 
 RMDIR "bin" /S /Q
