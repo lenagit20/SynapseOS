@@ -13,7 +13,6 @@
 */
 void kernel_main() {
     clean_screen();
-    init_interrupts();
 
     puts("SynapseOS 0.0.1");
     while(1);
