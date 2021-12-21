@@ -104,12 +104,21 @@ _start:
 jmp skip_idt
 
 .global load_idt
+.global keyboard_handler
 
 idt_load:
     mov 4(%esp), %eax
     lidt (%eax)
     ret
 
+keyboard_handler:
+	pusha
+	call keyboard_handler_main
+	popa
+	iret
+
+gdt_flush:
+	ret
 skip_idt:
 
 
