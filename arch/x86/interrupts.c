@@ -13,7 +13,7 @@ void timer_int_handler();
 
 
 /*
-
+    init_interrupts used for 
 */
 void init_interrupts() {
     *((size_t*)0xFFFFEFF0) = 0x8000 | 3;
@@ -60,5 +60,5 @@ void set_int_handler(uint8_t index, void *handler, uint8_t type) {
 
 */
 IRQ_HANDLER(timer_int_handler) {
-    (*((char*)(0xB8000 + 79 * 2)))++;
+    (*((char*)(0xC03FF000 + 79 * 2)))++;
 }
