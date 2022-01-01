@@ -19,3 +19,5 @@ void update_cursor(size_t row, size_t col);     // Move cursor function
 void clean_screen();                            // Clean screen function
 void putc(const char c);                        // Write a char function
 void puts(const char c[]);                      // Write a string function
+void putint(const int i);                       // Write an integer function
+void puthex(const int i);                       // Write an hex value function
