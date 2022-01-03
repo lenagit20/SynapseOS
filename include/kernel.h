@@ -7,5 +7,4 @@
 
 
 #include <io/tty.h>
-#include <io/keyboard.h>
-#include <interrupts.h>
+#include <libc/stdlib.h>
