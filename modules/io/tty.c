@@ -33,6 +33,7 @@ void update_cursor(size_t row, size_t col) {
     port_outb(0x3D5, (unsigned char)((position >> 8) & 0xFF));
 }
 
+
 /*
     clear_screen is used to clear the screen
 */
@@ -43,6 +44,7 @@ void clean_screen(){
     row = 0;
     update_cursor(col, row);
 }
+
 
 /*
     putc is used to print char
@@ -60,6 +62,7 @@ void putc(const char c){
     terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
     update_cursor(col, row);
 }
+
 
 /*
     putc is used to print string
