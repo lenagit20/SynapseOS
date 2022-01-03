@@ -14,11 +14,12 @@
 */
 void kernel_main() {
     clean_screen();
-    char wellcome[] = "SynapseOS 0.0.1";
 
 
-    reverse(wellcome);
-    puts(wellcome);
+    puts("SynapseOS 0.0.1");
+    puts("10 * 10 = ");
+    puts(itoa(100));
+
 
     while(1);
 }
