@@ -18,8 +18,7 @@ void kernel_main() {
 
     puts("SynapseOS 0.0.1");
     puts("10 * 10 = ");
-    puts(itoa(100));
-
+    putint(100);
 
     while(1);
 }
