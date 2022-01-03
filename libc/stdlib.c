@@ -5,6 +5,7 @@
 
 
 #include <libc/stdlib.h>
+#include <libc/string.h>
 
 
 /*
@@ -19,10 +20,39 @@ void reverse(char s[]) {
     j = strlen(s) - 1;
  
     for (int i = 0; i < j; i++) {
-        c = s[i];
-        s[i] = s[j];
-        s[j] = c;
+       c = s[i];
+       s[i] = s[j];
+       s[j] = c;
 
-        j--;
+       j--;
     }
+}
+
+
+/*
+    itoa is needed to convert integer to string.
+
+    i- the integer wich you need to convert
+*/
+char* itoa(int n) {
+    int i = 0, sign;
+    char * str = "";
+
+    if ((sign = n) < 0) {
+        n = -n;
+    }
+
+    do {
+        str[i++] = n % 10 + '0';
+    } while ((n /= 10) > 0);
+
+    if (sign < 0) {
+        str[i++] = '-';
+    }
+
+    str[i] = '\0';
+
+    reverse(str);
+
+    return str;
 }

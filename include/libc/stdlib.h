@@ -10,4 +10,4 @@
 
 
 void reverse(char s[]);
-void itoa(int n, char s[]);
+char* itoa(int n);
