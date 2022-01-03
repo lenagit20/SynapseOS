@@ -69,5 +69,7 @@ void putc(const char c){
 void puts(const char c[]){
     for (int i = 0; i < strlen(c); i++){
         putc(c[i]);
-    } 
+    }
+    col = 0;
+    row++;
 }
