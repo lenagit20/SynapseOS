@@ -6,6 +6,7 @@
 #include <io/tty.h>
 #include <io/ports.h>
 #include <libc/string.h>
+#include <libc/stdlib.h>
 
 
 uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // Text based output using MMIO
@@ -75,4 +76,19 @@ void puts(const char c[]){
     }
     col = 0;
     row++;
+}
+
+
+/*
+    putint is used to print integer
+
+    i - a integer that must be displayed on the screen.
+*/
+void putint(const int i){
+    if (i < 0){
+        putc('-');
+        puts(itoa(i));
+    } else{
+        puts(itoa(i));
+    }
 }
