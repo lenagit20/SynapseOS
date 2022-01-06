@@ -48,11 +48,11 @@ void clean_screen(){
 
 
 /*
-    putc is used to print char
+    putchar is used to print char
 
     c - a symbol that must be displayed on the screen.
 */
-void putc(const char c){
+void putchar(const char c){
     if (++col == 81){
         col = 0;
         if (++row == 26){
@@ -66,13 +66,13 @@ void putc(const char c){
 
 
 /*
-    putc is used to print string
+    putchar is used to print string
 
     c - a string that must be displayed on the screen.
 */
 void puts(const char c[]){
     for (int i = 0; i < strlen(c); i++){
-        putc(c[i]);
+        putchar(c[i]);
     }
     col = 0;
     row++;
@@ -86,7 +86,7 @@ void puts(const char c[]){
 */
 void putint(const int i){
     if (i < 0){
-        putc('-');
+        putchar('-');
         puts(itoa(i));
     } else{
         puts(itoa(i));
