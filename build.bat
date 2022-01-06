@@ -11,7 +11,7 @@ SET LD=i686-elf-ld
 SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra
 SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
-set OBJECTS=bin/kernel.o bin/%ARCH%/starter.o bin/io/tty.o bin/%ARCH%/io/ports.o bin/libc/string.o bin/libc/stdlib.o  
+set OBJECTS=bin/kernel.o bin/%ARCH%/starter.o bin/io/tty.o bin/%ARCH%/io/ports.o bin/%ARCH%/io/CMOS.o bin/libc/string.o bin/libc/stdlib.o  
 
 :: 
 RMDIR "bin" /S /Q
@@ -44,6 +44,7 @@ echo Compiling kernel libc
 echo Compiling %ARCH% modules
 %CC% %CCFLAGS% -c %ARCH%/starter.s -o bin/%ARCH%/starter.o
 %CC% %CCFLAGS% -c %ARCH%/io/ports.c -o bin/%ARCH%/io/ports.o
+%CC% %CCFLAGS% -c %ARCH%/io/CMOS.c -o bin/%ARCH%/io/CMOS.o
 %CC% %LDFLAGS% -T %ARCH%/link.ld -o bin/kernel.elf %OBJECTS%
 
 

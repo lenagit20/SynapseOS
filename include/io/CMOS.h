@@ -7,6 +7,7 @@
 #pragma once
 
 
-#include <io/tty.h>
-#include <io/CMOS.h>
-#include <libc/stdlib.h>
+#include <stdint.h>
+
+
+int CMOS_get(int register_number);    // Get value from CMOS
