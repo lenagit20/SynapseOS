@@ -17,21 +17,7 @@ void kernel_main() {
 
 
     puts("SynapseOS 0.0.1");
-    puts("10 * 10 = ");
-    putint(100);
-
-    puts("CMOS_get Seconds = ");
-    putint(CMOS_get(0x00));
-    puts("CMOS_get Minuts = ");
-    putint(CMOS_get(0x02));
-    puts("CMOS_get Hour = ");
-    putint(CMOS_get(0x04));
-    puts("CMOS_get Day = ");
-    putint(CMOS_get(0x07));
-    puts("CMOS_get Month = ");
-    putint(CMOS_get(0x08));
-    puts("CMOS_get Year = ");
-    putint(CMOS_get(0x09));
+    
     
 
     while(1);
