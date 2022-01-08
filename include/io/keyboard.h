@@ -13,9 +13,13 @@
 #include <libc/string.h>
 #include <io/ports.h>
 
+
 void keyboard_handler();
 void keyboard_init();    // Init keyboard function
 void keyboard_handler_main();    // Main keyboard function
 char getc();                     // Get an a Char from keyboard
 char *gets();                    // Get an a String from keyboard
 
+void keyboard_handler(/* struct regs *r */) {
+    asm("hlt");
+}
