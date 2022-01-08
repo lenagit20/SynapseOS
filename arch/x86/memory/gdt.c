@@ -5,7 +5,6 @@
 
 
 #include <memory/gdt.h>
-#include <io/ports.h>
 
 
 // Loads GDT from the pointeer of a gdt_ptr
