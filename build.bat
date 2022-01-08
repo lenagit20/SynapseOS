@@ -43,7 +43,7 @@ echo Compiling kernel libc
 %CC% %CCFLAGS% -c libc/stdlib.c -o bin/libc/stdlib.o
 
 echo Compiling %ARCH% modules
-%CC% %CCFLAGS% -c -Z %ARCH%/starter.s -o bin/%ARCH%/starter.o
+%CC% %CCFLAGS% -c %ARCH%/starter.s -o bin/%ARCH%/starter.o
 %CC% %CCFLAGS% -c %ARCH%/io/ports.c -o bin/%ARCH%/io/ports.o
 %CC% %CCFLAGS% -c %ARCH%/memory/gdt.c -o bin/%ARCH%/memory/gdt.o
 %CC% %CCFLAGS% -c %ARCH%/memory/idt.c -o bin/%ARCH%/memory/idt.o
