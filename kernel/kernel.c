@@ -14,7 +14,7 @@
 */
 void kernel_main() {
     clean_screen();
-
+    
 
     puts("SynapseOS 0.0.1");
     

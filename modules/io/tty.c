@@ -38,7 +38,7 @@ void update_cursor(size_t row, size_t col) {
 /*
     clear_screen is used to clear the screen
 */
-void clean_screen(){
+void clean_screen() {
     memset(terminal_buffer, 0, SCREEN_SIZE);
 
     col = 0;
@@ -52,15 +52,17 @@ void clean_screen(){
 
     c - a symbol that must be displayed on the screen.
 */
-void putchar(const char c){
+void putchar(const char c) {
     if (++col == 81){
         col = 0;
         if (++row == 26){
             row = 25;
         }
     }
+
     const size_t index = row * 80 + col;
     terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
+
     update_cursor(col, row);
 }
 
@@ -70,10 +72,11 @@ void putchar(const char c){
 
     c - a string that must be displayed on the screen.
 */
-void puts(const char c[]){
+void puts(const char c[]) {
     for (int i = 0; i < strlen(c); i++){
         putchar(c[i]);
     }
+
     col = 0;
     row++;
 }
@@ -84,7 +87,7 @@ void puts(const char c[]){
 
     i - a integer that must be displayed on the screen.
 */
-void putint(const int i){
+void putint(const int i) {
     if (i < 0){
         putchar('-');
         puts(itoa(i));
