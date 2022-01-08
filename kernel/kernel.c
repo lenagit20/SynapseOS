@@ -18,7 +18,12 @@ void kernel_main() {
 
     puts("SynapseOS 0.0.1");
     
+    gdt_init();
+    puts("gdt inited");
     
+    idt_init();
+    puts("idt inited");
+
 
     while(1);
 }
