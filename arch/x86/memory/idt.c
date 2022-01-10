@@ -16,19 +16,19 @@ struct IDT_entry IDT[IDT_SIZE]; // array of IDT entries
 /*
     load_idt - is used to load idt
 */
-void load_idt(unsigned long idt_ptr[2]);
+void load_idt(uint32_t idt_ptr[2]);
 
 
 /*
     idt_init - is used to provide idt to kernel
 */
 void idt_init() {
-	unsigned long keyboard_address;
-	unsigned long idt_address;
-	unsigned long idt_ptr[2];
+	uint32_t keyboard_address;
+	uint32_t idt_address;
+	uint32_t idt_ptr[2];
 
 	/* populate IDT entry of keyboard's interrupt */
-	keyboard_address = (unsigned long)keyboard_handler;
+	keyboard_address = (uint32_t)keyboard_handler;
 	IDT[0x21].offset_lowerbits = keyboard_address & 0xffff;
 	IDT[0x21].selector = 0x08;
 	IDT[0x21].zero = 0;
@@ -67,7 +67,7 @@ void idt_init() {
 	port_outb(0xA1 , 0xff);
 
 	/* fill the IDT descriptor */
-	idt_address = (unsigned long)IDT ;
+	idt_address = (uint32_t)IDT ;
 	idt_ptr[0] = (sizeof (struct IDT_entry) * IDT_SIZE) + ((idt_address & 0xffff) << 16);
 	idt_ptr[1] = idt_address >> 16 ;
 

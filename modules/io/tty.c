@@ -43,6 +43,7 @@ void clean_screen() {
 
     col = 0;
     row = 0;
+
     update_cursor(col, row);
 }
 
@@ -73,7 +74,7 @@ void putchar(const char c) {
     c - a string that must be displayed on the screen.
 */
 void puts(const char c[]) {
-    for (int i = 0; i < strlen(c); i++){
+    for (size_t i = 0; i < strlen(c); i++){
         putchar(c[i]);
     }
 

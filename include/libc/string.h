@@ -10,6 +10,6 @@
 #include <stddef.h>
 
 
-int strlen(const char *str);
+size_t strlen(const char *str);
 void *memcpy(void *destination, const void *source, size_t n);
 void *memset(void *destination, int c, size_t n);

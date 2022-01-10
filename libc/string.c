@@ -12,8 +12,8 @@
 
     str - the string the length of which you need to find out
 */
-int strlen(const char *str) {
-	int len = 0;
+size_t strlen(const char *str) {
+	size_t len = 0;
 	while (str[len] != 0) {
 		len++;
 	}
@@ -30,10 +30,12 @@ int strlen(const char *str) {
 void *memcpy(void *destination, const void *source, size_t n){
     char *tmp_dest = (char*)destination;
     const char *tmp_src = (const char*)source;
+
     while (n){
         *tmp_dest++ = *tmp_src++;
         n--;
     }
+
     return destination;
 }
 
