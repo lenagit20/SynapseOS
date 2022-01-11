@@ -74,7 +74,7 @@ void putchar(const char c) {
     c - a string that must be displayed on the screen.
 */
 void puts(const char c[]) {
-    for (size_t i = 0; i < strlen(c); i++){
+    for (size_t i = 0; i < strlen(c); i++) {
         putchar(c[i]);
     }
 
@@ -89,10 +89,10 @@ void puts(const char c[]) {
     i - a integer that must be displayed on the screen.
 */
 void putint(const int i) {
-    if (i < 0){
+    char res[32];
+    if (i < 0) {
         putchar('-');
-        puts(itoa(i));
-    } else{
-        puts(itoa(i));
     }
+    itoa(i, res);
+    puts(res);
 }
