@@ -1,58 +1,38 @@
 /*
     Copyright (C) Aren Elchinyan 2021-2022. All rights reserved.
     Distributed under terms of the Creative Commons Zero v1.0 Universal License.
-*/ 
-
+*/
 
 #include <libc/stdlib.h>
 #include <libc/string.h>
 
-
-/*
-    reverse is needed to reverse string.
-
-    s - the string which you need to reverse
-*/
-void reverse(char s[]) {
-	int j;
+void strver(char *str)
+{
     char c;
-
-    j = strlen(s) - 1;
- 
-    for (int i = 0; i < j; i++) {
-       c = s[i];
-       s[i] = s[j];
-       s[j] = c;
-
-       j--;
+    int j = strlen(str) - 1;
+    for (int i = 0; i < j; i++)
+    {
+        c = str[i];
+        str[i] = str[j];
+        str[j] = c;
+        j--;
     }
 }
 
-
-/*
-    itoa is needed to convert integer to string.
-
-    i- the integer wich you need to convert
-*/
-char* itoa(int n) {
-    int i = 0, sign;
-    char * str = "";
-
-    if ((sign = n) < 0) {
+int itoa(int n, char *buffer)
+{
+    int length = n < 0;
+    if (length)
+    {
         n = -n;
+        *buffer = '-';
     }
-
-    do {
-        str[i++] = n % 10 + '0';
-    } while ((n /= 10) > 0);
-
-    if (sign < 0) {
-        str[i++] = '-';
-    }
-
-    str[i] = '\0';
-
-    reverse(str);
-
-    return str;
+    do
+    {
+        buffer[length++] = (n % 10) + '0';
+        n /= 10;
+    } while (n > 0);
+    buffer[length] = '\0';
+    strver(buffer);
+    return length;
 }
