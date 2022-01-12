@@ -15,10 +15,10 @@
 void kernel_main() {
     clean_screen();
     
-    set_color(light_cyan);
+    set_color(COLOR_LIGHT_CYAN);
     puts("SynapseOS 0.0.1");
 
-    set_color(white);
+    set_color(COLOR_WHITE);
 
     
     gdt_init();

@@ -16,23 +16,23 @@
 #define SCREEN_SIZE COLS * ROWS                 // Screen height
 
 
-enum Colors {
-    black = 0,
-    blue = 1,
-    green = 2,
-    cyan = 3,
-    red = 4,
-    purple = 5,
-    brown = 6,
-    gray = 7,
-    dark_gray = 8,
-    light_blue = 9,
-    light_green = 10,
-    light_cyan = 11,
-    light_red = 12,
-    light_purple = 13,
-    yellow = 14,
-    white = 15,
+enum COLORS {
+    COLOR_BLACK = 0,
+    COLOR_BLUE = 1,
+    COLOR_GREEN = 2,
+    COLOR_CYAN = 3,
+    COLOR_RED = 4,
+    COLOR_PURPLE = 5,
+    COLOR_BROWN = 6,
+    COLOR_GRAY = 7,
+    COLOR_DARK_GRAY = 8,
+    COLOR_LIGHT_BLUE = 9,
+    COLOR_LIGHT_GREEN = 10,
+    COLOR_LIGHT_CYAN = 11,
+    COLOR_LIGHT_RED = 12,
+    COLOR_LIGHT_PURPLE = 13,
+    COLOR_YELLOW = 14,
+    COLOR_WHITE = 15
 };
 
 
