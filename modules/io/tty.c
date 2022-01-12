@@ -11,8 +11,8 @@
 
 uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // Text based output using MMIO
 
-int col;
-int row;
+int col, row;
+uint8_t color = 15;
 
 
 
@@ -49,6 +49,16 @@ void clean_screen() {
 
 
 /*
+    set_color is used to change output color
+
+    color - a color for text
+*/
+void set_color(uint8_t new_color) {
+    color = new_color;
+}
+
+
+/*
     putchar is used to print char
 
     c - a symbol that must be displayed on the screen.
@@ -62,7 +72,7 @@ void putchar(const char c) {
     }
 
     const size_t index = row * 80 + col;
-    terminal_buffer[index] = (uint16_t) c | (uint16_t) 15 << 8;
+    terminal_buffer[index] = (uint16_t) c | (uint16_t) color << 8;
 
     update_cursor(col, row);
 }
