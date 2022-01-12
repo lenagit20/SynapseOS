@@ -20,6 +20,7 @@ size_t strlen(const char *str) {
 	return len;
 }
 
+
 /*
     memcpy is needed to copy disjoint arrays.
 

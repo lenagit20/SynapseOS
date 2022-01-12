@@ -8,6 +8,11 @@
 #include <libc/string.h>
 
 
+/*
+    strver is used to reverse the order of characters in a string
+
+    str is input string
+ */
 void strver(char *str) {
     char c;
     int j = strlen(str) - 1;
@@ -21,6 +26,12 @@ void strver(char *str) {
 }
 
 
+/*
+    itoa is used to write a number in string representation
+
+    n is the original number
+    buffer is a buffer for writing
+ */
 int itoa(int n, char *buffer) {
     int length = n < 0;
     
