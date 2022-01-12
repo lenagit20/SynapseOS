@@ -12,7 +12,7 @@
 uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // Text based output using MMIO
 
 int col, row;
-uint8_t color = 15;
+uint8_t color = white;
 
 
 
