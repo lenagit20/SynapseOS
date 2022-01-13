@@ -14,6 +14,23 @@ struct IDT_entry IDT[IDT_SIZE]; // array of IDT entries
 
 
 /*
+    idt_set_entry adds an interrupt handler to the given address
+
+	adress this is a position in IDT
+	interrupt_adress this is the interrupt address
+
+*/
+void idt_set_entry(
+ uint8_t adress, uint16_t interrupt_adress, uint16_t selector, uint8_t type_attr) {
+    IDT[adress].offset_lowerbits = interrupt_adress  & 0xffff;
+    IDT[adress].selector = selector;
+    IDT[adress].zero = 0;
+    IDT[adress].type_attr = type_attr;
+    IDT[adress].offset_higherbits = (interrupt_adress & 0xffff0000) >> 16;
+}
+
+
+/*
     load_idt - is used to load idt
 */
 void load_idt(uint32_t idt_ptr[2]);
@@ -27,13 +44,20 @@ void idt_init() {
 	uint32_t idt_address;
 	uint32_t idt_ptr[2];
 
-	/* populate IDT entry of keyboard's interrupt */
+	
+	/* populate IDT entry of keyboard's 
+	
 	keyboard_address = (uint32_t)keyboard_handler;
 	IDT[0x21].offset_lowerbits = keyboard_address & 0xffff;
 	IDT[0x21].selector = 0x08;
 	IDT[0x21].zero = 0;
 	IDT[0x21].type_attr = INTERRUPT_GATE;
 	IDT[0x21].offset_higherbits = (keyboard_address & 0xffff0000) >> 16;
+
+
+
+	*/
+	
 
 	/*     Ports
 	*	 PIC1	PIC2
