@@ -20,8 +20,7 @@ struct IDT_entry IDT[IDT_SIZE]; // array of IDT entries
 	interrupt_adress this is the interrupt address
 
 */
-void idt_set_entry(
- uint8_t adress, uint32_t interrupt_adress, uint16_t selector, uint8_t type_attr) {
+void idt_set_entry(uint8_t adress, uint32_t interrupt_adress, uint16_t selector, uint8_t type_attr) {
     IDT[adress].offset_lowerbits = interrupt_adress  & 0xffff;
     IDT[adress].selector = selector;
     IDT[adress].zero = 0;
@@ -43,12 +42,10 @@ void idt_init() {
 	uint32_t idt_address;
 	uint32_t idt_ptr[2];
 	
-
 	
 	/* populate IDT entry of keyboard's */
 	idt_set_entry(0x21, (uint32_t)keyboard_handler, 0x08, INTERRUPT_GATE);
 
-	
 
 	/*     Ports
 	*	 PIC1	PIC2
@@ -59,6 +56,7 @@ void idt_init() {
 	/* ICW1 - begin initialization */
 	port_outb(0x20 , 0x11);
 	port_outb(0xA0 , 0x11);
+
 
 	/* ICW2 - remap offset address of IDT */
 	/*
@@ -80,6 +78,7 @@ void idt_init() {
 	/* mask interrupts */
 	port_outb(0x21 , 0xff);
 	port_outb(0xA1 , 0xff);
+
 
 	/* fill the IDT descriptor */
 	idt_address = (uint32_t)IDT ;
