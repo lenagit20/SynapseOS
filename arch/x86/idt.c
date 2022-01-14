@@ -4,7 +4,7 @@
 */
 
 
-#include <memory/idt.h>
+#include <idt.h>
 #include <io/ports.h>
 #include <io/keyboard.h>
 
@@ -79,7 +79,7 @@ void idt_init() {
 	port_outb(0x21 , 0xff);
 	port_outb(0xA1 , 0xff);
 
-
+  
 	/* fill the IDT descriptor */
 	idt_address = (uint32_t)IDT ;
 	idt_ptr[0] = (sizeof (struct IDT_entry) * IDT_SIZE) + ((idt_address & 0xffff) << 16);
