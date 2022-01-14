@@ -4,7 +4,7 @@
 */
 
 
-#include <memory/gdt.h>
+#include <gdt.h>
 
 
 // Loads GDT from the pointeer of a gdt_ptr

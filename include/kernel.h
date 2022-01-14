@@ -7,8 +7,8 @@
 #pragma once
 
 
+#include <gdt.h>
+#include <idt.h>
 #include <io/tty.h>
 #include <io/CMOS.h>
-#include <memory/idt.h>
-#include <memory/gdt.h>
 #include <libc/stdlib.h>
