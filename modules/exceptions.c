@@ -4,14 +4,14 @@
 */
 
 
-#pragma once
-
-
-#include <gdt.h>
-#include <idt.h>
+#include <kernel.h>
+#include <exceptions.h>
 #include <io/tty.h>
-#include <io/CMOS.h>
-#include <libc/stdlib.h>
 
 
-void kernel_main();
+void divide_by_zero(){
+    set_color(COLOR_RED);
+
+    puts("ERROR: Divide-by-zero");
+	kernel_main();
+}

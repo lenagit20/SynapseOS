@@ -7,17 +7,16 @@
 #include <kernel.h>
 
 
-
 /*
     kernel_main is the main function of the kernel. 
     It initializes the core modules and the main cycle has been declared.
 */
 void kernel_main() {
-    clean_screen();
+    
+    //clean_screen();
     
     set_color(COLOR_LIGHT_CYAN);
     puts("SynapseOS 0.0.1");
-
     set_color(COLOR_WHITE);
 
     

@@ -5,9 +5,13 @@
 
 
 #include <idt.h>
+#include <io/tty.h>
 #include <io/ports.h>
 #include <io/keyboard.h>
+#include <exceptions.h>
 
+
+int mode;
 
 
 struct IDT_entry IDT[IDT_SIZE]; // array of IDT entries
@@ -42,9 +46,12 @@ void idt_init() {
 	uint32_t idt_address;
 	uint32_t idt_ptr[2];
 	
+	idt_set_entry(0x21, (uint32_t)keyboard_handler, 0x08, 0x8e);
+
+	idt_set_entry(0x0, (uint32_t)divide_by_zero, 0x08, 0x8e);
+
 	
 	/* populate IDT entry of keyboard's */
-	idt_set_entry(0x21, (uint32_t)keyboard_handler, 0x08, INTERRUPT_GATE);
 
 
 	/*     Ports
@@ -86,4 +93,12 @@ void idt_init() {
 	idt_ptr[1] = idt_address >> 16 ;
 
 	load_idt(idt_ptr); // load IDT to special cpu register
+
+	if (mode == 0){
+		puts("Test exceptions");
+		mode = 1;
+
+    	int x = 0 / 0;
+	} 
+	
 }
