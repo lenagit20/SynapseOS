@@ -46,8 +46,8 @@ void idt_init() {
 	uint32_t idt_address;
 	uint32_t idt_ptr[2];
 	
-	idt_set_entry(0x21, (uint32_t)keyboard_handler, 0x08, 0x8e);
 
+	idt_set_entry(0x21, (uint32_t)keyboard_handler, 0x08, 0x8e);
 	idt_set_entry(0x0, (uint32_t)divide_by_zero, 0x08, 0x8e);
 
 	
@@ -98,7 +98,10 @@ void idt_init() {
 		puts("Test exceptions");
 		mode = 1;
 
-    	int x = 0 / 0;
+    	int x = 0;
+
+		putint(mode / x);
+		
 	} 
 	
 }
