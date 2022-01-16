@@ -17,6 +17,7 @@ void kernel_main() {
     
     set_color(COLOR_LIGHT_CYAN);
     puts("SynapseOS 0.0.1");
+    puts(__TIMESTAMP__);
     set_color(COLOR_WHITE);
 
     
