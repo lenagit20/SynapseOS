@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import abc
 import os
 import shutil
@@ -5,59 +7,62 @@ import subprocess
 import sys
 
 
-class Toolset:
-    def compile(self, source: str, object: str) -> None:
-        self._run(
-            f"i686-elf-gcc "
-            f"-g -I include -ffreestanding -Wall -Wextra "
-            f"-c {source} "
-            f"-o {object}"
-        )
-        print(f"{source} -> {object}")
-
-    def link(self, objects: list[str], executable: str) -> None:
-        self._run(
-            f"i686-elf-gcc "
-            f"-g -I include -ffreestanding -Wall -Wextra -nostdlib -lgcc "
-            f"-T arch/x86/link.ld "
-            f"-o {executable} "
-            f"{' '.join(objects)}"
-        )
-        print("|", "\n| ".join(objects), f"\n-> {executable}")
-
-    def is_source(self, file: str) -> bool:
-        return file.split(".")[-1] in "cs"
-
-    def _run(self, cmd: str) -> None:
-        code = os.system(cmd)
-        if code != 0:
-            exit(code)
+def run(cmd: str) -> None:
+    code = os.system(cmd)
+    if code != 0:
+        exit(code)
 
 
-def _build(toolset: Toolset):
-    objects = []
-    for (src, dst) in MAPPINGS.items():
-        files = [i for i in os.listdir(src) if toolset.is_source(i)]
-        os.makedirs(dst, exist_ok=True)
-        for file in files:
-            objects.append(os.path.join(dst, file[:-1] + "o"))
-            toolset.compile(
-                os.path.join(src, file),
-                objects[-1],
-            )
-    toolset.link(objects, ELF)
+def compile(source: str, object: str) -> None:
+    run(
+        f"i686-elf-gcc "
+        f"-g -I include -ffreestanding -Wall -Wextra "
+        f"-c {source} "
+        f"-o {object}"
+    )
+    print(f"{source} -> {object}")
+
+
+def link(objects: list[str], executable: str) -> None:
+    run(
+        f"i686-elf-gcc "
+        f"-g -I include -ffreestanding -Wall -Wextra -nostdlib -lgcc "
+        f"-T arch/x86/link.ld "
+        f"-o {executable} "
+        f"{' '.join(objects)}"
+    )
+    print("|", "\n| ".join(objects), f"\n-> {executable}")
+
+
+def is_source(file: str) -> bool:
+    return file.split(".")[-1] in "cs"
 
 
 def build():
-    shutil.rmtree("bin")
-    _build(Toolset())
+    objects = []
+    for (src, dst) in MAPPINGS.items():
+        files = [i for i in os.listdir(src) if is_source(i)]
+        os.makedirs(dst, exist_ok=True)
+        for file in files:
+            objects.append(os.path.join(dst, file[:-1] + "o"))
+            compile(
+                os.path.join(src, file),
+                objects[-1],
+            )
+    link(objects, ELF)
 
 
-def run():
+def cmd_build():
+    if os.path.exists("bin"):
+        shutil.rmtree("bin")
+    build()
+
+
+def cmd_run():
     os.system(
         f"qemu-system-i386 "
         f"-d int -m 5 -boot d "
-        f"-kernel {ELF}"
+        f"-kernel {ELF} "
         f"-serial file:Qemu_log.log -no-reboot"
     )
 
@@ -77,10 +82,10 @@ if "--silent" in sys.argv:
     print = lambda *_, **__: ...
 
 if "all" in sys.argv:
-    build()
-    run()
+    cmd_build()
+    cmd_run()
 else:
     if "build" in sys.argv:
-        build()
+        cmd_build()
     if "run" in sys.argv:
-        run()
+        cmd_run()
