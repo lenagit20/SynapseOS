@@ -6,6 +6,11 @@
 #include <lang0x42.h>
 
 
+char getchar(){
+    return '0';
+}
+
+
 int lang0x42_eval(const char *input){
     char memory[30000] = {0};
     int cursor = 0;
@@ -70,4 +75,6 @@ int lang0x42_eval(const char *input){
     }
 
     puts("Exit with code 0");
+
+    return 0;
 }

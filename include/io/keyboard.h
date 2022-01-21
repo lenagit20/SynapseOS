@@ -23,3 +23,8 @@ char *gets();                    // Get an a String from keyboard
 void keyboard_handler(/* struct regs *r */) {
     asm("hlt");
 }
+
+
+char keyboard_scancodes[] = {
+    '0'
+}
