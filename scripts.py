@@ -5,13 +5,13 @@ import shutil
 import sys
 
 
-def assert_run(cmd: str) -> None:
+def assert_run(cmd):
     code = os.system(cmd)
     if code != 0:
         exit(code)
 
 
-def bind_compile(source: str, object: str) -> None:
+def bind_compile(source, object):
     assert_run(
         f"i686-elf-gcc "
         f"-g -I include -ffreestanding -Wall -Wextra "
@@ -21,7 +21,7 @@ def bind_compile(source: str, object: str) -> None:
     print(f"{source} -> {object}")
 
 
-def bind_link(objects: list[str], executable: str) -> None:
+def bind_link(objects, executable):
     assert_run(
         f"i686-elf-gcc "
         f"-g -I include -ffreestanding -Wall -Wextra -nostdlib -lgcc "
@@ -32,11 +32,11 @@ def bind_link(objects: list[str], executable: str) -> None:
     print("|", "\n| ".join(objects), f"\n-> {executable}")
 
 
-def is_source(file: str) -> bool:
+def is_source(file):
     return file.split(".")[-1] in "cs"
 
 
-def cmd_build() -> None:
+def cmd_build():
     if os.path.exists("bin"):
         shutil.rmtree("bin")
     objects = []
@@ -52,7 +52,7 @@ def cmd_build() -> None:
     bind_link(objects, ELF)
 
 
-def cmd_run() -> None:
+def cmd_run():
     os.system(
         f"qemu-system-i386 "
         f"-d int -m 5 -boot d "

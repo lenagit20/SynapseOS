@@ -11,7 +11,7 @@ SET LD=i686-elf-ld
 SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra
 SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
-set MODULES_OBJ=bin/io/tty.o bin/exceptions.o
+set MODULES_OBJ=bin/io/tty.o bin/exceptions.o bin/lang0x42.o
 set LIBC_OBJ=bin/libc/string.o bin/libc/stdlib.o 
 set ARCH_OBJ=bin/%ARCH%/gdt.o bin/%ARCH%/idt.o bin/%ARCH%/io/ports.o bin/%ARCH%/io/CMOS.o
 set OBJECTS=bin/kernel.o bin/%ARCH%/starter.o %MODULES_OBJ% %LIBC_OBJ% %ARCH_OBJ%
@@ -40,6 +40,7 @@ echo Using %CCFLAGS%
 echo Compiling modules
 %CC% %CCFLAGS% -c modules/io/tty.c -o bin/io/tty.o
 %CC% %CCFLAGS% -c modules/exceptions.c -o bin/exceptions.o
+%CC% %CCFLAGS% -c modules/lang0x42.c -o bin/lang0x42.o
 
 echo Compiling kernel libc
 %CC% %CCFLAGS% -c libc/string.c -o bin/libc/string.o
@@ -51,6 +52,8 @@ echo Compiling %ARCH% modules
 %CC% %CCFLAGS% -c %ARCH%/gdt.c -o bin/%ARCH%/gdt.o
 %CC% %CCFLAGS% -c %ARCH%/idt.c -o bin/%ARCH%/idt.o
 %CC% %CCFLAGS% -c %ARCH%/io/CMOS.c -o bin/%ARCH%/io/CMOS.o
+
+
 %CC% %LDFLAGS% -T %ARCH%/link.ld -o bin/kernel.elf %OBJECTS%
 
 
