@@ -106,3 +106,16 @@ void putint(const int i) {
     itoa(i, res);
     puts(res);
 }
+
+
+
+/*
+    log_puts is used to print string in log
+
+    c - a string that must be displayed on the screen.
+*/
+void log_puts(const char c[]) {
+    for (size_t i = 0; i < strlen(c); i++) {
+        com1_write_char(c[i]);
+    }
+}
