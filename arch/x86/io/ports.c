@@ -32,3 +32,23 @@ uint8_t port_inb(uint16_t port){
 
     return ret;
 }
+
+
+/*
+    com1_is_transmit_empty is used for check com1
+*/
+int com1_is_transmit_empty() {
+   return port_inb(0x3f8 + 5) & 0x20;
+}
+
+
+/*
+    com1_write_char is used for write char to com1
+
+    c - char wich needed to print
+*/
+void com1_write_char(char c) {
+   while (com1_is_transmit_empty() == 0);
+   
+   port_outb(0x3f8, c);
+}
