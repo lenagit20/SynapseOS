@@ -27,4 +27,4 @@ void keyboard_handler(/* struct regs *r */) {
 
 char keyboard_scancodes[] = {
     '0'
-}
+};
