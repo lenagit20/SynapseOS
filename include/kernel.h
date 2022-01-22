@@ -10,6 +10,7 @@
 #include <gdt.h>
 #include <idt.h>
 #include <io/tty.h>
+#include <io/ports.h>
 #include <io/CMOS.h>
 #include <libc/stdlib.h>
 

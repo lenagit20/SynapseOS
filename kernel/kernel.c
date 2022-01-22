@@ -26,6 +26,7 @@ void kernel_main() {
     
     idt_init();
     puts("idt inited");
+    log_puts("idt inited!");
 
 
     while(1);
