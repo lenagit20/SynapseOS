@@ -12,9 +12,8 @@
     It initializes the core modules and the main cycle has been declared.
 */
 void kernel_main() {
-    
-    //clean_screen();
-    
+    log_puts("Setup");
+    clean_screen();
     set_color(COLOR_LIGHT_CYAN);
     puts("SynapseOS 0.0.1");
     puts(__TIMESTAMP__);
@@ -23,7 +22,8 @@ void kernel_main() {
     
     gdt_init();
     puts("gdt inited");
-    
+    log_puts("gdt inited!");
+
     idt_init();
     puts("idt inited");
     log_puts("idt inited!");
