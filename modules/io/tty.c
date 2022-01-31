@@ -23,7 +23,7 @@ uint8_t color = COLOR_WHITE;
     col - current column
 */
 void update_cursor(size_t row, size_t col) {
-    unsigned short position = (row * COLS) + col;
+    unsigned short position = (row * COLS) + col + 1;
 
     // cursor LOW port to vga INDEX register
     port_outb(0x3D4, 0x0F);
@@ -41,10 +41,10 @@ void update_cursor(size_t row, size_t col) {
 void clean_screen() {
     memset(terminal_buffer, 0, SCREEN_SIZE);
 
-    col = 0;
+    col = -1;
     row = 0;
 
-    update_cursor(col, row);
+    update_cursor(0, 0);
 }
 
 
@@ -65,7 +65,7 @@ void set_color(uint8_t new_color) {
 */
 void putchar(const char c) {
     if (++col == 81){
-        col = 0;
+        col = -1;
         if (++row == 26){
             row = 25;
         }
@@ -75,6 +75,7 @@ void putchar(const char c) {
     terminal_buffer[index] = (uint16_t) c | (uint16_t) color << 8;
 
     update_cursor(col, row);
+    
 }
 
 
@@ -88,7 +89,7 @@ void puts(const char c[]) {
         putchar(c[i]);
     }
 
-    col = 0;
+    col = -1;
     row++;
 }
 
@@ -105,8 +106,8 @@ void putint(const int i) {
     }
     itoa(i, res);
     puts(res);
+    
 }
-
 
 
 /*
