@@ -91,17 +91,7 @@ void idt_init() {
 	idt_address = (uint32_t)IDT ;
 	idt_ptr[0] = (sizeof (struct IDT_entry) * IDT_SIZE) + ((idt_address & 0xffff) << 16);
 	idt_ptr[1] = idt_address >> 16 ;
-
-	load_idt(idt_ptr); // load IDT to special cpu register
-
-	if (mode == 0){
-		puts("Test exceptions");
-		mode = 1;
-
-    	int x = 0;
-
-		putint(mode / x);
-		
-	} 
 	
+	log_puts("load_idt");
+	load_idt(idt_ptr); // load IDT to special cpu register
 }
