@@ -13,5 +13,6 @@ void divide_by_zero(){
     set_color(COLOR_RED);
 
     puts("ERROR: Divide-by-zero");
-	kernel_main();
+	while(1);
+
 }
