@@ -44,3 +44,4 @@ void puts(const char c[]);                      // Write a string function
 void putsln(const char c[]);                      // Write a string function
 void putint(const int i);                       // Write an integer function
 void log_puts(const char c[]);                  // Write a string to log function
+void log_putsln(const char c[]);                  // Write a string to log function
