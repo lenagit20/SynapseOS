@@ -79,5 +79,6 @@ void keyboard_handler_main(void)
 }
 
 void keyboard_handler(/* struct regs *r */) {
+	log_putsln("Shit");
     asm("hlt");
 }
