@@ -24,5 +24,5 @@ extern unsigned char keyboard_map[128];
 void kb_init(void);
 void keyboard_handler(/* struct regs *r */);
 void keyboard_handler_main(void);
-
+char getchar();
 #endif

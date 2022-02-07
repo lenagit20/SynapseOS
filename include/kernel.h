@@ -14,6 +14,7 @@
 #include <io/CMOS.h>
 #include <io/keyboard.h>
 #include <libk/stdlib.h>
+#include <lang0x42.h>
 
 
 void kernel_main();

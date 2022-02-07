@@ -44,6 +44,8 @@ void kernel_main(const void* multiboot_struct) {
     puts("> ");
     set_color(COLOR_GREEN);
 
+    lang0x42_eval(",.[,.]");
+
     while(1){
         keyboard_handler_main();
     }

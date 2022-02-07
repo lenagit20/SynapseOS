@@ -58,4 +58,4 @@ echo Compiling %ARCH% modules
 %CC% %LDFLAGS% -T %ARCH%/link.ld -o bin/kernel.elf %OBJECTS%
 
 
-pause
+TIMEOUT /T 5 

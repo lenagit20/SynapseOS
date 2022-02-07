@@ -7,6 +7,17 @@
 #include <io/keyboard.h>
 
 
+/*
+  0 - none
+  1 - shell
+  2 - getchar
+  3 - gets
+
+*/
+int input_type;
+char keycode; 
+
+
 unsigned char keyboard_map[128] = {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
   '9', '0', '-', '=', '\b',	/* Backspace */
@@ -47,6 +58,7 @@ unsigned char keyboard_map[128] = {
 };
 
 void kb_init(void) {
+  input_type = 1;
 	/* 0xFD is 11111101 - enables only IRQ1 (keyboard)*/
 	port_outb(0x21 , 0xFD);
 }
@@ -54,7 +66,6 @@ void kb_init(void) {
 void keyboard_handler_main(void) {
 	
 	unsigned char status;
-	char keycode;
 	char res[32];
 
 
@@ -70,6 +81,13 @@ void keyboard_handler_main(void) {
 		
 		if(keycode < 0)
 			return;
+    if (input_type == 2){
+      log_puts("getch: ");
+      itoa(keycode, res);
+      log_putsln(res);
+      input_type = 0;
+      return;
+    }
 
 		if(keycode == ENTER_KEY_CODE) {
 			row++;
@@ -91,3 +109,13 @@ void keyboard_handler_main(void) {
 	}
 }
 
+char getchar(){
+  input_type = 2;
+
+  while (input_type)
+  {
+    keyboard_handler_main();
+  }
+  input_type = 1;
+  return keyboard_map[(unsigned char) keycode];
+}
