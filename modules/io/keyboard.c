@@ -55,6 +55,7 @@ void kb_init(void)
 
 void keyboard_handler_main(void)
 {
+	log_putsln("keyboard_handler_main");
 	unsigned char status;
 	char keycode;
 
@@ -78,7 +79,3 @@ void keyboard_handler_main(void)
 	}
 }
 
-void keyboard_handler(/* struct regs *r */) {
-	log_putsln("Shit");
-    asm("hlt");
-}

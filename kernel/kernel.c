@@ -32,5 +32,7 @@ void kernel_main() {
     putsln("keyboard inited");
     log_putsln("kb inited!");
 
-    while(1);
+    while(1){
+        keyboard_handler_main();
+    }
 }

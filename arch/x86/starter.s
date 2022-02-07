@@ -109,6 +109,14 @@ jmp skip_idt
 .global keyboard_handler
 
 
+keyboard_handler:   
+	pusha
+	cld
+	call    keyboard_handler_main
+	popa
+	ret
+
+
 load_idt:
     mov 4(%esp), %eax
     lidt (%eax)
