@@ -6,6 +6,7 @@
 
 #include <io/CMOS.h>
 #include <io/ports.h>
+#include <io/tty.h>
 
 
 /*
@@ -130,4 +131,10 @@ void read_rtc() {
             year += (CURRENT_YEAR / 100) * 100;
             if(year < CURRENT_YEAR) year += 100;
       }
+}
+
+
+
+void print_nowtime() {
+    putsln("");
 }

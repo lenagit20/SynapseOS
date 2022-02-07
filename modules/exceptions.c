@@ -12,7 +12,7 @@
 void divide_by_zero(){
     set_color(COLOR_RED);
 
-    puts("ERROR: Divide-by-zero");
+    putsln("ERROR: Divide-by-zero");
 	while(1);
 
 }

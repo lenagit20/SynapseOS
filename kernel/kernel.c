@@ -15,17 +15,17 @@ void kernel_main() {
     log_puts("Setup");
     clean_screen();
     set_color(COLOR_LIGHT_CYAN);
-    puts("SynapseOS 0.0.1");
-    puts(__TIMESTAMP__);
+    putsln("SynapseOS 0.0.1");
+    putsln(__TIMESTAMP__);
     set_color(COLOR_WHITE);
 
     
     gdt_init();
-    puts("gdt inited");
+    putsln("gdt inited");
     log_puts("gdt inited!");
 
     idt_init();
-    puts("idt inited");
+    putsln("idt inited");
     log_puts("idt inited!");
 
 

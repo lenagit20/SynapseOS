@@ -63,7 +63,7 @@ int lang0x42_eval(const char *input){
                 memory[cursor] = 0;
                 break;
             case 'E':
-                puts("Exit with code 2");
+                putsln("Exit with code 2");
                 return 2;
                 break;
 
@@ -74,7 +74,7 @@ int lang0x42_eval(const char *input){
         }
     }
 
-    puts("Exit with code 0");
+    putsln("Exit with code 0");
 
     return 0;
 }
