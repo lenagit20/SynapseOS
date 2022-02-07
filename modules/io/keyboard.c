@@ -47,14 +47,12 @@ unsigned char keyboard_map[128] =
     0,	/* All other keys are undefined */
 };
 
-void kb_init(void)
-{
+void kb_init(void) {
 	/* 0xFD is 11111101 - enables only IRQ1 (keyboard)*/
 	port_outb(0x21 , 0xFD);
 }
 
-void keyboard_handler_main(void)
-{
+void keyboard_handler_main(void) {
 	
 	unsigned char status;
 	char keycode;
@@ -75,7 +73,8 @@ void keyboard_handler_main(void)
 			return;
 
 		if(keycode == ENTER_KEY_CODE) {
-			putchar('\n');
+			row++;
+			col = -1;
 			return;
 		}
 

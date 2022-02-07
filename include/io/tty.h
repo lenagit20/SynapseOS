@@ -16,6 +16,9 @@
 #define SCREEN_SIZE COLS * ROWS                 // Screen height
 
 
+extern int col, row;
+
+
 enum COLORS {
     COLOR_BLACK = 0,
     COLOR_BLUE = 1,
