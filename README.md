@@ -22,7 +22,7 @@ After downloading the build tools, start the build using build.bat or build.sh. 
 ---------------
 
 # SynapseOS
-SynapseOS это бесплатная open source x86-64 операционная система написанная на FASM и С
+SynapseOS это бесплатная open source x86 операционная система написанная на FASM и С
 
 ## Документация
 [Документация](https://synapse-os.github.io/doc)
