@@ -110,10 +110,7 @@ jmp skip_idt
 
 
 keyboard_handler:   
-	pusha
-	cld
 	call    keyboard_handler_main
-	popa
 	ret
 
 

@@ -15,7 +15,10 @@ void kernel_main() {
     log_putsln("Setup");
     clean_screen();
     set_color(COLOR_LIGHT_CYAN);
-    putsln("SynapseOS 0.0.1");
+    putsln("SynapseOS 0.0.1, Copyright (C) Aren Elchinyan 2021-2022. All rights reserved.");
+    putsln("Offical website: https://synapse-os.github.io ");
+    putsln("");
+    puts("Builded: ");
     putsln(__TIMESTAMP__);
     set_color(COLOR_WHITE);
 
@@ -31,6 +34,12 @@ void kernel_main() {
     kb_init();
     putsln("keyboard inited");
     log_putsln("kb inited!");
+
+    set_color(COLOR_LIGHT_CYAN);
+    puts("kernel");
+    set_color(COLOR_YELLOW);
+    puts("> ");
+    set_color(COLOR_GREEN);
 
     while(1){
         keyboard_handler_main();

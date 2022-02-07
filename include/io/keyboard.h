@@ -8,6 +8,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <libk/string.h>
+#include <libk/stdlib.h>
 #include <io/tty.h>
 #include <io/ports.h>
 #ifndef KBD_H

@@ -55,17 +55,22 @@ void kb_init(void)
 
 void keyboard_handler_main(void)
 {
-	log_putsln("keyboard_handler_main");
+	
 	unsigned char status;
 	char keycode;
+	char res[32];
+
 
 	/* write EOI */
 	port_outb(0x20, 0x20);
 
 	status = port_inb(KEYBOARD_STATUS_PORT);
+
+
 	/* Lowest bit of status will be set if buffer is not empty */
 	if (status & 0x01) {
 		keycode = port_inb(KEYBOARD_DATA_PORT);
+		
 		if(keycode < 0)
 			return;
 
@@ -74,8 +79,17 @@ void keyboard_handler_main(void)
 			return;
 		}
 
-    putchar(keyboard_map[(unsigned char) keycode]);
-    //qemu_printf("key = %c (index %d)\n", keyboard_map[(unsigned char) keycode], (unsigned char) keycode);
+		if(keycode == 1) {
+			putsln("EXIT");
+			return;
+		}
+
+		log_puts("Scancode: ");
+		itoa(keycode, res);
+		log_putsln(res);
+
+		putchar(keyboard_map[(unsigned char) keycode]);
+    	//qemu_printf("key = %c (index %d)\n", keyboard_map[(unsigned char) keycode], (unsigned char) keycode);
 	}
 }
 
