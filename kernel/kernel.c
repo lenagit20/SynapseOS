@@ -12,7 +12,7 @@
     It initializes the core modules and the main cycle has been declared.
 */
 void kernel_main() {
-    log_puts("Setup");
+    log_putsln("Setup");
     clean_screen();
     set_color(COLOR_LIGHT_CYAN);
     putsln("SynapseOS 0.0.1");
@@ -22,12 +22,15 @@ void kernel_main() {
     
     gdt_init();
     putsln("gdt inited");
-    log_puts("gdt inited!");
+    log_putsln("gdt inited!");
 
     idt_init();
     putsln("idt inited");
-    log_puts("idt inited!");
+    log_putsln("idt inited!");
 
+    kb_init();
+    putsln("keyboard inited");
+    log_putsln("kb inited!");
 
     while(1);
 }
