@@ -12,6 +12,7 @@
 #include <io/tty.h>
 #include <io/ports.h>
 #include <io/CMOS.h>
+#include <io/keyboard.h>
 #include <libk/stdlib.h>
 
 
