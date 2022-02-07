@@ -5,8 +5,8 @@
 
 #include <io/tty.h>
 #include <io/ports.h>
-#include <libc/string.h>
-#include <libc/stdlib.h>
+#include <libk/string.h>
+#include <libk/stdlib.h>
 
 
 uint16_t* terminal_buffer = (uint16_t*) 0xC03FF000; // Text based output using MMIO

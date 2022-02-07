@@ -67,7 +67,7 @@ MAPPINGS = {
     "kernel": "bin",
     "modules/io": "bin/io",
     "modules": "bin",
-    "libc": "bin/libc",
+    "libk": "bin/libk",
     f"{ARCH}": f"bin/{ARCH}",
     f"{ARCH}/io": f"bin/{ARCH}/io",
 }

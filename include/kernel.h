@@ -12,7 +12,7 @@
 #include <io/tty.h>
 #include <io/ports.h>
 #include <io/CMOS.h>
-#include <libc/stdlib.h>
+#include <libk/stdlib.h>
 
 
 void kernel_main();

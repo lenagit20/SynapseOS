@@ -4,8 +4,8 @@
 */
 
 
-#include <libc/stdlib.h>
-#include <libc/string.h>
+#include <libk/stdlib.h>
+#include <libk/string.h>
 
 
 /*

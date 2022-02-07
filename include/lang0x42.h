@@ -8,7 +8,7 @@
 
 
 #include <io/tty.h>
-#include <libc/stdlib.h>
+#include <libk/stdlib.h>
 
 
 int lang0x42_eval(const char *input);

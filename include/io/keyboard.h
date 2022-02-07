@@ -10,7 +10,7 @@
 
 #include <stdint.h>
 #include <stddef.h>
-#include <libc/string.h>
+#include <libk/string.h>
 #include <io/ports.h>
 
 

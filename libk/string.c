@@ -4,7 +4,7 @@
 */
 
 
-#include <libc/string.h>
+#include <libk/string.h>
 
 
 /*
