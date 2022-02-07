@@ -80,7 +80,22 @@ void putchar(const char c) {
 
 
 /*
-    putchar is used to print string
+    putsln is used to print string with newline
+
+    c - a string that must be displayed on the screen.
+*/
+void putsln(const char c[]) {
+    for (size_t i = 0; i < strlen(c); i++) {
+        putchar(c[i]);
+    }
+
+    col = -1;
+    row++;
+}
+
+
+/*
+    putsln is used to print string
 
     c - a string that must be displayed on the screen.
 */
@@ -88,9 +103,6 @@ void puts(const char c[]) {
     for (size_t i = 0; i < strlen(c); i++) {
         putchar(c[i]);
     }
-
-    col = -1;
-    row++;
 }
 
 
