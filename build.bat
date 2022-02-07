@@ -8,10 +8,10 @@ SET AS=i686-elf-as
 SET CC=i686-elf-gcc
 SET LD=i686-elf-ld
 
-SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra -Og
+SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra 
 SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
-set MODULES_OBJ=bin/io/tty.o bin/exceptions.o bin/lang0x42.o
+set MODULES_OBJ=bin/io/tty.o bin/exceptions.o bin/lang0x42.o bin/io/keyboard.o 
 set LIBK_OBJ=bin/libk/string.o bin/libk/stdlib.o 
 set ARCH_OBJ=bin/%ARCH%/gdt.o bin/%ARCH%/idt.o bin/%ARCH%/io/ports.o bin/%ARCH%/io/CMOS.o
 set OBJECTS=bin/kernel.o bin/%ARCH%/starter.o %MODULES_OBJ% %LIBK_OBJ% %ARCH_OBJ%
