@@ -132,3 +132,17 @@ void log_puts(const char c[]) {
         com1_write_char(c[i]);
     }
 }
+
+
+/*
+    log_putsln is used to print string in log with newline
+
+    c - a string that must be displayed on the screen.
+*/
+void log_putsln(const char c[]) {
+    for (size_t i = 0; i < strlen(c); i++) {
+        com1_write_char(c[i]);
+    }
+
+    com1_write_char('\n');
+}
