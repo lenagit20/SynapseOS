@@ -14,8 +14,8 @@
   3 - gets
 
 */
-int input_type;
-char keycode; 
+int input_type, SHIFT;
+char keycode, last_char; 
 
 
 unsigned  char keyboard_map[] = {
@@ -128,17 +128,24 @@ void keyboard_handler_main(void) {
 	if (status & 0x01) {
 		keycode = port_inb(KEYBOARD_DATA_PORT);
 		
-		if(keycode < 0)
+		if(input_type == 0){
 			return;
+    }
     
     if (keycode == -86){
       SHIFT = 1;
+      return;
     }
     if (input_type == 2){
       log_puts("getch: ");
       itoa(keycode, res);
       log_putsln(res);
       input_type = 0;
+      if (SHIFT){
+        last_char = keyboard_map_shifted[(unsigned char) keycode];
+        return;
+      }
+      last_char = keyboard_map[(unsigned char) keycode];
       return;
     }
 
