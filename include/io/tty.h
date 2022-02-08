@@ -41,6 +41,7 @@ enum COLORS {
 
 void update_cursor(size_t row, size_t col);     // Move cursor function
 void clean_screen();                            // Clean screen function
+void backspace();                            // backspace
 void set_color(uint8_t new_color);              // Change terminal color function
 void putchar(const char c);                     // Write a char function
 void puts(const char c[]);                      // Write a string function

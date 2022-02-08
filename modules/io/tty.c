@@ -49,6 +49,27 @@ void clean_screen() {
 
 
 /*
+    clear_screen is used to clear the screen
+*/
+void backspace() {
+    const size_t index = row * 80 + col;
+    terminal_buffer[index] = (uint16_t) ' ' | (uint16_t) color << 8;
+
+	if (col == 0) {
+		if (row > 0) {
+			row--;
+            col = 79;
+		}
+	} else {
+		col--;
+	}
+
+	update_cursor(row, col);
+}
+
+
+
+/*
     set_color is used to change output color
 
     color - a color for text
