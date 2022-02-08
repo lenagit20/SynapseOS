@@ -133,7 +133,7 @@ void keyboard_handler_main(void) {
 			return;
         }
     
-        if (keycode == -86){
+        if (keycode == -86 || keycode == 42){
             SHIFT = 1;
             return;
         }
@@ -152,17 +152,17 @@ void keyboard_handler_main(void) {
         // Keycode 14 is backspase
         if(keycode == 14) {
 
-        if (string_mem_counter != 0) {
-            string_mem_counter--;
-            string_mem[ string_mem_counter ] = 0;
-            log_putsln("string_mem =");
-            log_putsln(string_mem);
-            log_putsln("string_mem_counter =");
-            itoa(string_mem_counter, res);
-            log_putsln(res);
-            backspace();
-        }
-        return;
+            if (string_mem_counter != 0) {
+                string_mem_counter--;
+                string_mem[ string_mem_counter ] = 0;
+                log_putsln("string_mem =");
+                log_putsln(string_mem);
+                log_putsln("string_mem_counter =");
+                itoa(string_mem_counter, res);
+                log_putsln(res);
+                backspace();
+            }
+            return;
         }
         if (input_type == 3){
             log_puts("getch: ");
@@ -193,7 +193,9 @@ void keyboard_handler_main(void) {
         log_puts("Scancode: ");
         itoa(keycode, res);
         log_putsln(res);
-
+        if (keycode < 0){
+            return;
+        }
         if (SHIFT == 0){
                 putchar(keyboard_map[(unsigned char) keycode]);
         } else {
