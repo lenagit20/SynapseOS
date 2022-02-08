@@ -3,9 +3,13 @@
     Distributed under terms of the Creative Commons Zero v1.0 Universal License.
 */
 
-#include <lang0x42.h>
-#include <shell.h>
+
+#pragma once
 
 
-void shell(char *input){
-}
+#include <io/tty.h>
+#include <io/keyboard.h>
+#include <libk/stdlib.h>
+
+
+void shell(char *input);

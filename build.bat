@@ -11,7 +11,7 @@ SET LD=i686-elf-ld
 SET CCFLAGS=-g -I include -ffreestanding -Wall -Wextra 
 SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 
-set MODULES_OBJ=bin/io/tty.o bin/exceptions.o bin/lang0x42.o bin/io/keyboard.o 
+set MODULES_OBJ=bin/io/tty.o bin/exceptions.o bin/lang0x42.o bin/io/keyboard.o bin/shell.o 
 set DRIVERS_OBJ=bin/drivers/floppy.o 
 set LIBK_OBJ=bin/libk/string.o bin/libk/stdlib.o 
 set ARCH_OBJ=bin/%ARCH%/gdt.o bin/%ARCH%/idt.o bin/%ARCH%/io/ports.o bin/%ARCH%/io/CMOS.o bin/%ARCH%/starter.o 
@@ -44,6 +44,7 @@ echo Compiling modules
 %CC% %CCFLAGS% -c modules/io/keyboard.c -o bin/io/keyboard.o
 %CC% %CCFLAGS% -c modules/exceptions.c -o bin/exceptions.o
 %CC% %CCFLAGS% -c modules/lang0x42.c -o bin/lang0x42.o
+%CC% %CCFLAGS% -c modules/shell.c -o bin/shell.o
 
 echo Compiling kernel libk
 %CC% %CCFLAGS% -c libk/string.c -o bin/libk/string.o
