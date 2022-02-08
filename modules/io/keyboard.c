@@ -133,74 +133,73 @@ void keyboard_handler_main(void) {
 			return;
         }
     
-    if (keycode == -86){
-        SHIFT = 1;
-        return;
-    }
-    if (input_type == 2){
-        log_puts("getch: ");
-        itoa(keycode, res);
-        log_putsln(res);
-        input_type = 0;
-        if (SHIFT){
-            last_char = keyboard_map_shifted[(unsigned char) keycode];
+        if (keycode == -86){
+            SHIFT = 1;
             return;
         }
-        last_char = keyboard_map[(unsigned char) keycode];
-        return;
-    }
-    // Keycode 14 is backspase
-    if(keycode == 14) {
-
-      if (string_mem_counter != 0) {
-        string_mem_counter--;
-        string_mem[ string_mem_counter ] = 0;
-        log_putsln("string_mem =");
-        log_putsln(string_mem);
-        log_putsln("string_mem_counter =");
-        itoa(string_mem_counter, res);
-		log_putsln(res);
-        backspace();
-      }
-      return;
-    }
-    if (input_type == 3){
-        log_puts("getch: ");
-        itoa(keycode, res);
-        log_putsln(res);
-        input_type = 0;
-        if (SHIFT){
-            last_char = keyboard_map_shifted[(unsigned char) keycode];
+        if (input_type == 2){
+            log_puts("getch: ");
+            itoa(keycode, res);
+            log_putsln(res);
+            input_type = 0;
+            if (SHIFT){
+                last_char = keyboard_map_shifted[(unsigned char) keycode];
+                return;
+            }
+            last_char = keyboard_map[(unsigned char) keycode];
             return;
         }
-        last_char = keyboard_map[(unsigned char) keycode];
+        // Keycode 14 is backspase
+        if(keycode == 14) {
+
+        if (string_mem_counter != 0) {
+            string_mem_counter--;
+            string_mem[ string_mem_counter ] = 0;
+            log_putsln("string_mem =");
+            log_putsln(string_mem);
+            log_putsln("string_mem_counter =");
+            itoa(string_mem_counter, res);
+            log_putsln(res);
+            backspace();
+        }
         return;
-    }
+        }
+        if (input_type == 3){
+            log_puts("getch: ");
+            itoa(keycode, res);
+            log_putsln(res);
+            input_type = 0;
+            if (SHIFT){
+                last_char = keyboard_map_shifted[(unsigned char) keycode];
+                return;
+            }
+            last_char = keyboard_map[(unsigned char) keycode];
+            return;
+        }
 
-		if(keycode == ENTER_KEY_CODE) {
-			row++;
-			col = -1;
-      
-			return;
-		}
+        if(keycode == ENTER_KEY_CODE) {
+            row++;
+            col = -1;
+            return;
+        }
 
-		if(keycode == 1 & input_type == 1) {
-			putsln("EXIT");
+        if(keycode == 1 & input_type == 1) {
+            putsln("EXIT");
             alive = 0;
-			return;
-		}
-    
-    string_mem_counter++;
-		log_puts("Scancode: ");
-		itoa(keycode, res);
-		log_putsln(res);
+            return;
+        }
+        
+        string_mem_counter++;
+        log_puts("Scancode: ");
+        itoa(keycode, res);
+        log_putsln(res);
 
         if (SHIFT == 0){
                 putchar(keyboard_map[(unsigned char) keycode]);
         } else {
             putchar(keyboard_map_shifted[(unsigned char) keycode]);
-		}
-    	//qemu_printf("key = %c (index %d)\n", keyboard_map[(unsigned char) keycode], (unsigned char) keycode);
+        }
+        //qemu_printf("key = %c (index %d)\n", keyboard_map[(unsigned char) keycode], (unsigned char) keycode);
 	}
 }
 
