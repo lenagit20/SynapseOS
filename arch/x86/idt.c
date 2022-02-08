@@ -93,5 +93,6 @@ void idt_init() {
 	idt_ptr[1] = idt_address >> 16 ;
 	
 	log_putsln("load_idt");
+	putsln("Can't load fat32 filesystem");
 	load_idt(idt_ptr); // load IDT to special cpu register
 }
