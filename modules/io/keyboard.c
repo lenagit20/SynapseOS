@@ -108,41 +108,39 @@ unsigned  char keyboard_map_shifted[] = {
 };
 
 void kb_init(void) {
-  input_type = 1;
-	/* 0xFD is 11111101 - enables only IRQ1 (keyboard)*/
-	port_outb(0x21 , 0xFD);
+    input_type = 1;
+    /* 0xFD is 11111101 - enables only IRQ1 (keyboard)*/
+    port_outb(0x21, 0xFD);
 }
 
 void keyboard_handler_main(void) {
-	
-	unsigned char status;
-	char res[32];
 
+    unsigned char status;
+    char res[32];
 
-	/* write EOI */
-	port_outb(0x20, 0x20);
+    /* write EOI */
+    port_outb(0x20, 0x20);
 
-	status = port_inb(KEYBOARD_STATUS_PORT);
+    status = port_inb(KEYBOARD_STATUS_PORT);
 
+    /* Lowest bit of status will be set if buffer is not empty */
+    if (status & 0x01) {
+        keycode = port_inb(KEYBOARD_DATA_PORT);
 
-	/* Lowest bit of status will be set if buffer is not empty */
-	if (status & 0x01) {
-		keycode = port_inb(KEYBOARD_DATA_PORT);
-		
-		if(input_type == 0){
-			return;
+        if (input_type == 0) {
+            return;
         }
-    
-        if (keycode == -86 || keycode == 42){
+
+        if (keycode == -86 || keycode == 42) {
             SHIFT = 1;
             return;
         }
-        if (input_type == 2){
+        if (input_type == 2) {
             log_puts("getch: ");
             itoa(keycode, res);
             log_putsln(res);
             input_type = 0;
-            if (SHIFT){
+            if (SHIFT) {
                 last_char = keyboard_map_shifted[(unsigned char) keycode];
                 return;
             }
@@ -150,11 +148,11 @@ void keyboard_handler_main(void) {
             return;
         }
         // Keycode 14 is backspase
-        if(keycode == 14) {
+        if (keycode == 14) {
 
             if (string_mem_counter != 0) {
                 string_mem_counter--;
-                string_mem[ string_mem_counter ] = 0;
+                string_mem[string_mem_counter] = 0;
                 log_putsln("string_mem =");
                 log_putsln(string_mem);
                 log_putsln("string_mem_counter =");
@@ -164,23 +162,27 @@ void keyboard_handler_main(void) {
             }
             return;
         }
-        if (input_type == 3){
+        if (input_type == 3) {
             log_puts("getch: ");
             itoa(keycode, res);
             log_putsln(res);
-            input_type = 0;
-            if (SHIFT){
+
+            input_type = -2;
+
+            if (SHIFT) {
                 last_char = keyboard_map_shifted[(unsigned char) keycode];
                 return;
+            } else {
+                last_char = keyboard_map[(unsigned char) keycode];
             }
-            last_char = keyboard_map[(unsigned char) keycode];
+
             return;
         }
 
-        if(keycode == ENTER_KEY_CODE) {
+        if (keycode == ENTER_KEY_CODE) {
             row++;
             col = -1;
-            if (input_type == 1){
+            if (input_type == 1) {
                 string_mem_counter = 0;
                 memset(string_mem, 0, 1024);
                 shell(string_mem);
@@ -189,17 +191,17 @@ void keyboard_handler_main(void) {
             return;
         }
 
-        if(keycode == 1 & input_type == 1) {
+        if (keycode == 1 & input_type == 1) {
             putsln("EXIT");
             alive = 0;
             return;
         }
-        if (string_mem_counter > 1023){
+        if (string_mem_counter > 1023) {
             log_putsln("Buffer string_mem is full!!");
             putsln("Buffer string_mem is full!!");
             return;
         }
-        if (SHIFT == 0){
+        if (SHIFT == 0) {
             string_mem_counter[string_mem] = keyboard_map[(unsigned char) keycode];
         } else {
             string_mem_counter[string_mem] = keyboard_map_shifted[(unsigned char) keycode];
@@ -208,22 +210,32 @@ void keyboard_handler_main(void) {
         log_puts("Scancode: ");
         itoa(keycode, res);
         log_putsln(res);
-        if (keycode < 0){
+        if (keycode < 0) {
             return;
         }
-        if (SHIFT == 0){
+        if (SHIFT == 0) {
             putchar(keyboard_map[(unsigned char) keycode]);
         } else {
             putchar(keyboard_map_shifted[(unsigned char) keycode]);
         }
         //qemu_printf("key = %c (index %d)\n", keyboard_map[(unsigned char) keycode], (unsigned char) keycode);
-	}
+    }
 }
 
-char getchar(){
+char getchar() {
     input_type = 2;
 
-    while (input_type){
+    while (input_type != -2) {
+        keyboard_handler_main();
+    }
+    input_type = 1;
+    return keyboard_map[(unsigned char) keycode];
+}
+
+char gets() {
+    input_type = 3;
+
+    while (input_type != -3) {
         keyboard_handler_main();
     }
     input_type = 1;
