@@ -12,7 +12,7 @@
     kernel_main is the main function of the kernel. 
     It initializes the core modules and the main cycle has been declared.
 */
-void kernel_main(const void* multiboot_struct) {
+void kernel_main() {
     clean_screen();
     log_putsln("Setup");
     
@@ -44,7 +44,7 @@ void kernel_main(const void* multiboot_struct) {
     puts("> ");
     set_color(COLOR_GREEN);
 
-    lang0x42_eval(",.[,.]");
+    //lang0x42_eval(",.[,.]");
 
     while(1){
         keyboard_handler_main();
