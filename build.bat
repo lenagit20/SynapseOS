@@ -24,6 +24,7 @@ cd bin
 mkdir io
 mkdir libk
 mkdir arch
+mkdir drivers
 cd ARCH
 mkdir x86
 cd x86
