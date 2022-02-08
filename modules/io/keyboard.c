@@ -180,6 +180,12 @@ void keyboard_handler_main(void) {
         if(keycode == ENTER_KEY_CODE) {
             row++;
             col = -1;
+            if (input_type == 1){
+                string_mem_counter = 0;
+                memset(string_mem, 0, 1024);
+                shell(string_mem);
+
+            }
             return;
         }
 
@@ -188,7 +194,16 @@ void keyboard_handler_main(void) {
             alive = 0;
             return;
         }
-        
+        if (string_mem_counter > 1023){
+            log_putsln("Buffer string_mem is full!!");
+            putsln("Buffer string_mem is full!!");
+            return;
+        }
+        if (SHIFT == 0){
+            string_mem_counter[string_mem] = keyboard_map[(unsigned char) keycode];
+        } else {
+            string_mem_counter[string_mem] = keyboard_map_shifted[(unsigned char) keycode];
+        }
         string_mem_counter++;
         log_puts("Scancode: ");
         itoa(keycode, res);
@@ -197,7 +212,7 @@ void keyboard_handler_main(void) {
             return;
         }
         if (SHIFT == 0){
-                putchar(keyboard_map[(unsigned char) keycode]);
+            putchar(keyboard_map[(unsigned char) keycode]);
         } else {
             putchar(keyboard_map_shifted[(unsigned char) keycode]);
         }
