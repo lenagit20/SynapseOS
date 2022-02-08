@@ -155,11 +155,6 @@ skip_idt:
 	mov $stack_top, %esp
 
 	# Enter the high-level kernel.
-	cli
-	mov	%esp, stack_top           # Set up a valid stack
-    mov %ebp, stack_top
- 
-	push	%ebx                     # Push pointer to multiboot info structure
 	call kernel_main
 
 	# Infinite loop if the system has nothing more to do.
