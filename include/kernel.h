@@ -18,3 +18,4 @@
 
 
 void kernel_main();
+extern int alive;
