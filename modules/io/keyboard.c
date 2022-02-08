@@ -4,7 +4,7 @@
 */
 
 
-#include <io/keyboard.h>
+#include <kernel.h>
 
 
 /*
@@ -155,8 +155,9 @@ void keyboard_handler_main(void) {
 			return;
 		}
 
-		if(keycode == 1) {
+		if(keycode == 1 & input_type == 1) {
 			putsln("EXIT");
+      alive = 0;
 			return;
 		}
     
