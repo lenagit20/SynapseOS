@@ -40,6 +40,8 @@ void kernel_main() {
     kb_init();
     putsln("keyboard inited");
     log_putsln("kb inited!");
+    
+    test_floppy();
 
     set_color(COLOR_LIGHT_CYAN);
     puts("kernel");
