@@ -51,7 +51,9 @@ void kernel_main() {
 
     //lang0x42_eval(",.[,.]");
 
-    while(alive){
-        shell(gets());
+    while(alive) {
+        keyboard_handler_main();
     }
+
+    log_putsln("EXIT");
 }
