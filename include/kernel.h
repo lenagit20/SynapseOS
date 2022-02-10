@@ -13,7 +13,9 @@
 #include <io/ports.h>
 #include <io/CMOS.h>
 #include <io/keyboard.h>
+#include <drivers/floppy.h>
 #include <libk/stdlib.h>
+#include <shell.h>
 #include <lang0x42.h>
 
 
