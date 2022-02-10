@@ -14,8 +14,8 @@
   3 - gets
 
 */
-int input_type, SHIFT, string_mem_counter;
-char keycode, last_char; 
+int input_type = 1, SHIFT, string_mem_counter, keycode;
+char last_char; 
 char string_mem[1024];
 
 
@@ -184,14 +184,13 @@ void keyboard_handler_main(void) {
             col = -1;
             if (input_type == 1) {
                 string_mem_counter = 0;
-                memset(string_mem, 0, 1024);
                 shell(string_mem);
-
+                memset(string_mem, 0, 1024);
             }
             return;
         }
 
-        if (keycode == 1 & input_type == 1) {
+        if (keycode ==  input_type == 1) {
             putsln("EXIT");
             alive = 0;
             return;
@@ -202,9 +201,9 @@ void keyboard_handler_main(void) {
             return;
         }
         if (SHIFT == 0) {
-            string_mem_counter[string_mem] = keyboard_map[(unsigned char) keycode];
+            string_mem[string_mem_counter] = keyboard_map[(unsigned char) keycode];
         } else {
-            string_mem_counter[string_mem] = keyboard_map_shifted[(unsigned char) keycode];
+            string_mem[string_mem_counter] = keyboard_map_shifted[(unsigned char) keycode];
         }
         string_mem_counter++;
         log_puts("Scancode: ");
