@@ -87,8 +87,12 @@ void set_color(uint8_t new_color) {
 void putchar(const char c) {
     if (++col == 81){
         col = -1;
-        if (++row == 26){
+        if (row > 24){
             row = 25;
+            video_scroll();
+            log_putsln("!!!!!!!!1!!!!!!!");
+        } else {
+            row++;
         }
     }
 
@@ -166,4 +170,14 @@ void log_putsln(const char c[]) {
     }
 
     com1_write_char('\n');
+}
+
+void video_scroll() {
+    for(int i = 0; i < 80 * 24; i++) {
+        terminal_buffer[i] = terminal_buffer[i + 80];
+    }
+    for(int i = 80 * 24; i < 80 * 25; i++){
+        terminal_buffer[i] = (uint16_t) '1' | (uint16_t) color << 8;
+    }
+    col = 0;
 }

@@ -174,7 +174,13 @@ void keyboard_handler_main(void) {
         }
 
         if (keycode == ENTER_KEY_CODE) {
-            row++;
+            if (row > 24){
+                row = 25;
+                video_scroll();
+                log_putsln("!!!!!!!!1!!!!!!!");
+            } else {
+                row++;
+            }
             col = -1;
             if (input_type == 1) {
                 string_mem_counter = 0;
@@ -200,6 +206,9 @@ void keyboard_handler_main(void) {
         string_mem_counter++;
         log_puts("Scancode: ");
         itoa(keycode, res);
+        log_putsln(res);
+        log_puts("row: ");
+        itoa(row, res);
         log_putsln(res);
         if (keycode < 0) {
             return;
