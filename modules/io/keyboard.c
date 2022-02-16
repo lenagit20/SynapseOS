@@ -12,6 +12,7 @@
   1 - shell
   2 - getchar
   3 - gets
+  4 - 0x42
 
 */
 int input_type = 1, SHIFT, string_mem_counter;
@@ -158,9 +159,11 @@ void keyboard_handler_main(void) {
                 string_mem[string_mem_counter] = 0;
                 log_putsln("string_mem =");
                 log_putsln(string_mem);
+
                 log_putsln("string_mem_counter =");
                 itoa(string_mem_counter, res);
                 log_putsln(res);
+
                 backspace();
             }
             return;
@@ -185,6 +188,10 @@ void keyboard_handler_main(void) {
             if (input_type == 1) {
                 string_mem_counter = 0;
                 shell(string_mem);
+                memset(string_mem, 0, 1024);
+            } else if (input_type == 4) {
+                string_mem_counter = 0;
+                lang0x42_eval(string_mem);
                 memset(string_mem, 0, 1024);
             }
             return;

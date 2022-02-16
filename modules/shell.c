@@ -11,4 +11,18 @@
 void shell(char *input){
     log_putsln("SHELL:");
     log_putsln(input);
+
+    if (strcmp(input, "help") == 0) {
+        putsln("Commands:");
+        putsln("help, 0x42, ls, cd, echo");
+    } else if (strcmp(input, "0x42") == 0) {
+        input_type = 4;
+        putsln("Lang0x42 active!");
+    } else if (strcmp(input, "ls") == 0) {
+
+    } else if (strcmp(input, "") == 0) {
+
+    } else if (strcmp(input, "") == 0) {
+
+    }
 }

@@ -177,7 +177,7 @@ void video_scroll() {
         terminal_buffer[i] = terminal_buffer[i + 80];
     }
     for(int i = 80 * 24; i < 80 * 25; i++){
-        terminal_buffer[i] = (uint16_t) '1' | (uint16_t) color << 8;
+        terminal_buffer[i] = (uint16_t) ' ' | (uint16_t) color << 8;
     }
     col = 0;
 }
