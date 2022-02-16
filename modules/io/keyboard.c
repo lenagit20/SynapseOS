@@ -14,8 +14,8 @@
   3 - gets
 
 */
-int input_type = 1, SHIFT, string_mem_counter, keycode;
-char last_char; 
+int input_type = 1, SHIFT, string_mem_counter;
+char keycode, last_char; 
 char string_mem[1024];
 
 
@@ -141,7 +141,7 @@ void keyboard_handler_main(void) {
             log_putsln(res);
             input_type = 0;
             if (SHIFT) {
-                last_char = keyboard_map_shifted[(unsigned char) keycode];
+                last_char =  keyboard_map_shifted[(unsigned char) keycode];
                 return;
             }
             last_char = keyboard_map[(unsigned char) keycode];
