@@ -25,4 +25,10 @@ void shell(char *input){
     } else if (strcmp(input, "") == 0) {
 
     }
+
+    set_color(COLOR_LIGHT_CYAN);
+    puts("kernel");
+    set_color(COLOR_YELLOW);
+    puts("> ");
+    set_color(COLOR_GREEN);
 }
