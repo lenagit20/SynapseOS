@@ -87,19 +87,14 @@ void set_color(uint8_t new_color) {
 void putchar(const char c) {
     if (++col == 81){
         col = -1;
-        if (row > 24){
-            row = 25;
-            video_scroll();
-            log_putsln("!!!!!!!!1!!!!!!!");
-        } else {
-            row++;
-        }
+        row++;
+        video_scroll();
     }
 
     const size_t index = row * 80 + col;
     terminal_buffer[index] = (uint16_t) c | (uint16_t) color << 8;
 
-    update_cursor(col, row);
+    update_cursor(row, col);
     
 }
 
@@ -116,6 +111,7 @@ void putsln(const char c[]) {
 
     col = -1;
     row++;
+    video_scroll();
 }
 
 
@@ -173,11 +169,18 @@ void log_putsln(const char c[]) {
 }
 
 void video_scroll() {
-    for(int i = 0; i < 80 * 24; i++) {
-        terminal_buffer[i] = terminal_buffer[i + 80];
+    if (row > 24){
+        for (int i = 0*80; i < 24*80; i++) {
+            terminal_buffer[i] = terminal_buffer[i + 80];
+        }
+
+        // The last line should now be blank. Do this by writing
+        // 80 spaces to it.
+        for (int i = 24 * 80; i < 25 * 80; i++) {
+            terminal_buffer[i] = (uint16_t) ' ' | (uint16_t) color << 8;
+        }
+        // The cursor should now be on the last line.
+        row = 24;
     }
-    for(int i = 80 * 24; i < 80 * 25; i++){
-        terminal_buffer[i] = (uint16_t) ' ' | (uint16_t) color << 8;
-    }
-    col = 0;
+    update_cursor(row, col);
 }
