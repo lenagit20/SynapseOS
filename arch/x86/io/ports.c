@@ -52,3 +52,11 @@ void com1_write_char(char c) {
    
    port_outb(0x3f8, c);
 }
+
+
+/*
+    io_wait is used for create small delay
+*/
+void io_wait() {
+    port_outb(0x80, 0);
+}
