@@ -182,5 +182,5 @@ void video_scroll() {
         // The cursor should now be on the last line.
         row = 24;
     }
-    update_cursor(row, col);
+    update_cursor(row, col + 1);
 }
