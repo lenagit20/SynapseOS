@@ -20,7 +20,8 @@ void shell(char *input){
         putsln("Lang0x42 active!");
     } else if (strcmp(input, "ls") == 0) {
 
-    } else if (strcmp(input, "") == 0) {
+    } else if (strcmp(input, "test") == 0) {
+        int i = strcmp(input, "test") / 0;
 
     } else if (strcmp(input, "") == 0) {
 

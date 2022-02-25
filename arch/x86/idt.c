@@ -38,7 +38,9 @@ void idt_set_entry(uint8_t adress, uint32_t interrupt_adress, uint16_t selector,
 */
 void load_idt(uint32_t idt_ptr[2]);
 
-
+void floppy_handler(){
+	putsln("FLOPPY");
+}
 /*
     idt_init - is used to provide idt to kernel
 */
@@ -46,9 +48,13 @@ void idt_init() {
 	uint32_t idt_address;
 	uint32_t idt_ptr[2];
 	
-
-	idt_set_entry(0x21, (uint32_t)keyboard_handler, 0x08, 0x8e);
+	
 	idt_set_entry(0x0, (uint32_t)divide_by_zero, 0x08, 0x8e);
+
+	init_pic();
+
+	idt_set_entry(0x6, (uint32_t)floppy_handler, 0x08, 0x8e);
+	idt_set_entry(0x8, (uint32_t)keyboard_handler, 0x08, 0x8e);
 
 	
 	/* populate IDT entry of keyboard's */

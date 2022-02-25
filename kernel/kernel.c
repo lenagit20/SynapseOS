@@ -33,9 +33,11 @@ void kernel_main() {
     putsln("gdt inited");
     log_putsln("gdt inited!");
 
+
     idt_init();
     putsln("idt inited");
     log_putsln("idt inited!");
+
 
     kb_init();
     putsln("keyboard inited");
@@ -53,7 +55,6 @@ void kernel_main() {
     while(alive) {
         keyboard_handler_main();
     }
-    disable_pic();
-
+    
     log_putsln("EXIT");
 }

@@ -111,7 +111,7 @@ unsigned  char keyboard_map_shifted[] = {
 void kb_init(void) {
     input_type = 1;
     /* 0xFD is 11111101 - enables only IRQ1 (keyboard)*/
-    port_outb(0x21, 0xFD);
+    port_outb(0x8, 0xFD);
 }
 
 void keyboard_handler_main(void) {

@@ -58,5 +58,7 @@ void disable_pic() {
 
 */
 void init_pic() {
-
+	for (int i = 0; i != 34; i++){
+		PIC_remap(i, i + 33);
+	}
 }
