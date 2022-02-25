@@ -14,7 +14,7 @@ SET LDFLAGS=%CCFLAGS% -nostdlib -lgcc
 set MODULES_OBJ=bin/io/tty.o bin/exceptions.o bin/lang0x42.o bin/io/keyboard.o bin/shell.o 
 set DRIVERS_OBJ=bin/drivers/floppy.o 
 set LIBK_OBJ=bin/libk/string.o bin/libk/stdlib.o 
-set ARCH_OBJ=bin/%ARCH%/gdt.o bin/%ARCH%/idt.o bin/%ARCH%/io/ports.o bin/%ARCH%/io/CMOS.o bin/%ARCH%/starter.o 
+set ARCH_OBJ=bin/%ARCH%/gdt.o bin/%ARCH%/idt.o bin/%ARCH%/pic.o bin/%ARCH%/io/ports.o bin/%ARCH%/io/CMOS.o bin/%ARCH%/starter.o 
 set OBJECTS=bin/kernel.o %MODULES_OBJ% %LIBK_OBJ% %ARCH_OBJ% %DRIVERS_OBJ% 
 
 :: 
@@ -59,6 +59,7 @@ echo Compiling %ARCH% modules
 %CC% %CCFLAGS% -c %ARCH%/io/CMOS.c -o bin/%ARCH%/io/CMOS.o
 %CC% %CCFLAGS% -c %ARCH%/gdt.c -o bin/%ARCH%/gdt.o
 %CC% %CCFLAGS% -c %ARCH%/idt.c -o bin/%ARCH%/idt.o
+%CC% %CCFLAGS% -c %ARCH%/pic.c -o bin/%ARCH%/pic.o
 
 
 echo Linking...

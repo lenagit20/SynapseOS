@@ -61,8 +61,8 @@ void idt_init() {
 	*/
 
 	/* ICW1 - begin initialization */
-	port_outb(0x20 , 0x11);
-	port_outb(0xA0 , 0x11);
+	port_outb(PIC1 , 0x11);
+	port_outb(PIC2 , 0x11);
 
 
 	/* ICW2 - remap offset address of IDT */
@@ -70,7 +70,7 @@ void idt_init() {
 	* In x86 protected mode, we have to remap the PICs beyond 0x20 because
 	* Intel have designated the first 32 interrupts as "reserved" for cpu exceptions
 	*/
-	port_outb(0x21, 0x20);
+	port_outb(0x21, PIC1);
 	port_outb(0xA1, 0x28);
 
 	/* ICW3 - setup cascading */
@@ -93,17 +93,5 @@ void idt_init() {
 	idt_ptr[1] = idt_address >> 16 ;
 	
 	log_putsln("load_idt");
-	putsln("Can't load fat32 filesystem");
 	load_idt(idt_ptr); // load IDT to special cpu register
 }
-
-
-/*
-    disable_pic - is used to disable the PIC
-*/
-void disable_pic() {
-	asm volatile("mov %ax, 0xff");
-
-	port_outb(0xA1, 0xFF); // out 0xa1, al
-	port_outb(0x21, 0xFF); // out 0x21, al
-} 
