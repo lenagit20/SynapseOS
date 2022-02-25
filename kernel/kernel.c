@@ -1,6 +1,6 @@
 /*
     Copyright (C) Aren Elchinyan 2021-2022. All rights reserved.
-    Distributed under terms of the Creative Commons Zero v1.0 Universal License.
+    Distributed under terms of the Apache-2.0 License.
 */
 
 
@@ -42,7 +42,6 @@ void kernel_main() {
     log_putsln("kb inited!");
     
     test_floppy();
-
     set_color(COLOR_LIGHT_CYAN);
     puts("kernel");
     set_color(COLOR_YELLOW);
@@ -54,6 +53,7 @@ void kernel_main() {
     while(alive) {
         keyboard_handler_main();
     }
+    disable_pic();
 
     log_putsln("EXIT");
 }
